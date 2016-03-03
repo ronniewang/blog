@@ -1,10 +1,10 @@
-Solr is an open source search server that is built by using the indexing and search capabilities of Lucene Core, and it can be used for implementing scalable search engines with almost any programming language.
+Solr是一个基于Lucene Core的开源搜索引擎，通过HTTP协议支持多种编程语言。
 
-Even though Solr has many advantages, setting up a development environment is not one of them. This blog post fixes that problem.
+虽然Solr优势很多，但是安装开发环境却是很蛋疼，这篇就先解决Solr的安装问题。
 
-We will learn how we can run Solr by using Maven and ensure that each developer uses the same configuration, schema, and Solr version.
+我们选择通过Maven来构建，保证配置统一。
 
-从Solr的配置文件开始吧。
+先从Solr的配置文件开始吧。
 
 ### 搞定Solr配置文件
 
