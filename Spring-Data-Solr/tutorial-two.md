@@ -4,25 +4,25 @@ Even though Solr has many advantages, setting up a development environment is no
 
 We will learn how we can run Solr by using Maven and ensure that each developer uses the same configuration, schema, and Solr version.
 
-Let’s start by getting the Solr configuration files.
+从Solr的配置文件开始吧。
 
-### Getting the Solr Configuration Files
+### 搞定Solr配置文件
 
-The first thing that we have to do is to get the Solr configuration files and copy them to our project. We can do this by following these steps:
+首先要复制Solr的配置文件到我们的项目下：
 
 1. [下载Solr 4.3.0二进制版本](https://archive.apache.org/dist/lucene/solr/4.3.0/)
 2. 解压到任意目录
 3. 到根目录下
 4. 将下列文件从`example/solr/collection1/conf`目录复制到`src/main/config`目录：admin-extra.html, admin-extra-menu.menu-bottom.html, admin-extra.menu-top.html, currency.xml, elevate.xml, mapping-FoldToASCII.txt, mapping-ISOLatin1Accent.txt, protwords.xml, schema.xml, scripts.conf, solrconfig.xml, spellings.txt, stopwords.txt, synonyms.txt and update-script.js.
 5. 复制`example/solr/collection1/conf/lang`目录下的文件到`src/main/config/lang`目录下
-6. 负责`example/solr/collection1/conf/velocity`目录下的所有文件到`src/main/config/velocity`目录下
-7. 负责`example/solr/collection1/conf/xslt`目录下的所有文件到`src/main/config/xslt`目录下
+6. 复制`example/solr/collection1/conf/velocity`目录下的所有文件到`src/main/config/velocity`目录下
+7. 复制`example/solr/collection1/conf/xslt`目录下的所有文件到`src/main/config/xslt`目录下
 8. 复制`exaple/solr`目录下的solr.xml文件到`src/main/resources`目录下
-9. 创建`src/main/webapp/WEB-INF`目录，否则无法启动solr
+9. 创建`src/main/webapp/WEB-INF`目录，否则无法启动Solr
 
-Let’s move on and find out how we can configure our Maven build.
+下面开始Maven的构建配置。
 
-### Configuring Our Maven Build
+### Maven的构建配置
 
 After we have copied the Solr configuration files to our project, we have to configure our Maven build. The requirements of our Maven build are:
 
