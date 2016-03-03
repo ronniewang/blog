@@ -74,9 +74,9 @@ We have to create a basic POM file for a web application project. This POM file 
 </project>
 ```
 
-#### Getting the Required Dependencies
+#### 添加依赖
 
-We can get the required dependencies by declaring the following dependencies in our pom.xml file:
+在`pom.xml`中声明依赖：
 
 * SLF4J
 * SLF4J interceptors for the java.util.logging (JUL) and the java.commons.logging (JCL) logging frameworks.
@@ -85,7 +85,8 @@ We can get the required dependencies by declaring the following dependencies in 
 * Solr 4.3.0 (war)
 
 > We need to declare the logging dependencies in our POM file because [the logging configuration of Solr](http://wiki.apache.org/solr/SolrLogging) was changed when Solr 4.3.0 was released.
-The dependencies section of our POM file looks as follows:
+
+POM文件依赖部分如下：
 
 ```xml
 <!-- SLF4J -->
@@ -124,7 +125,7 @@ The dependencies section of our POM file looks as follows:
 </dependency>
 ```
 
-#### Creating the Properties File
+#### 创建Properties文件
 
 Our next step is to create the properties file that is used in our Maven build, and add the required build profile configuration to our POM file.
 
