@@ -13,12 +13,12 @@ The first thing that we have to do is to get the Solr configuration files and co
 1. [下载Solr 4.3.0二进制版本](https://archive.apache.org/dist/lucene/solr/4.3.0/)
 2. 解压到任意目录
 3. 到根目录下
-4. 将下列文件从example/solr/collection1/conf目录复制到src/main/config目录：admin-extra.html, admin-extra-menu.menu-bottom.html, admin-extra.menu-top.html, currency.xml, elevate.xml, mapping-FoldToASCII.txt, mapping-ISOLatin1Accent.txt, protwords.xml, schema.xml, scripts.conf, solrconfig.xml, spellings.txt, stopwords.txt, synonyms.txt and update-script.js.
-5. 复制example/solr/collection1/conf/lang目录下的文件到src/main/config/lang目录下
-6. Copy the Velocity macros and other files found from the directory example/solr/collection1/conf/velocity to the directry src/main/config/velocity.
-7. Copy the XSL style sheets found from the directory example/solr/collection1/conf/xslt to the directry src/main/config/xslt.
-8. Copy the solr.xml file from the directory exaple/solr/collection1 to the directory src/main/resources.
-9. Create the directory src/main/webapp/WEB-INF. If we don’t create this directory, we cannot start our Solr instance.
+4. 将下列文件从`example/solr/collection1/conf`目录复制到`src/main/config`目录：admin-extra.html, admin-extra-menu.menu-bottom.html, admin-extra.menu-top.html, currency.xml, elevate.xml, mapping-FoldToASCII.txt, mapping-ISOLatin1Accent.txt, protwords.xml, schema.xml, scripts.conf, solrconfig.xml, spellings.txt, stopwords.txt, synonyms.txt and update-script.js.
+5. 复制`example/solr/collection1/conf/lang`目录下的文件到`src/main/config/lang`目录下
+6. 负责`example/solr/collection1/conf/velocity`目录下的所有文件到`src/main/config/velocity`目录下
+7. 负责`example/solr/collection1/conf/xslt`目录下的所有文件到`src/main/config/xslt`目录下
+8. 复制`exaple/solr`目录下的solr.xml文件到`src/main/resources`目录下
+9. 创建`src/main/webapp/WEB-INF`目录，否则无法启动solr
 
 Let’s move on and find out how we can configure our Maven build.
 
