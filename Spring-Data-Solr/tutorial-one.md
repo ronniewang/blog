@@ -1,13 +1,13 @@
 
-本文翻译自<http://www.petrikainulainen.net/spring-data-solr-tutorial/>
+本文翻译自：<http://www.petrikainulainen.net/spring-data-solr-tutorial/>
 
-Most of the applications must have a some kind of a search function. The problem is that search functions are often huge resource hogs and they can kill the performance of your application by causing heavy load to the database.
+大多数应用都有搜索的需求，搜索的问题就是经常会耗费过多的系统资源。
 
-That is why transferring that load to an external search server is a great idea. Apache Solr is a popular open source search server which is used via REST-like HTTP API. This ensures that you can use Solr from virtually any programming language.
+把搜索的负载放到一个单独的服务器上是一个好想法，Apache Solr就是一个流行的开源的搜索引擎服务器，提供REST式的HTTP API，这就保证了你可以使用任何语言来使用solr的服务。
 
-Although the ability to support any programming language is a great marketing benefit, the question that probably interests you is: How I can use Solr in my Spring powered applications?
+下面我们就来看看怎么在Spring项目里使用Solr。
 
-Introducing Spring Data Solr Tutorial
+### Introducing Spring Data Solr Tutorial
 
 This ten-part tutorial will help you get started with Spring Data Solr. This tutorial is based on Spring Data Solr 1.0.0.RC1 but I plan to update it when newer versions are released.
 
