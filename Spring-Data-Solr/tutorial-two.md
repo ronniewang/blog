@@ -10,11 +10,11 @@ Let’s start by getting the Solr configuration files.
 
 The first thing that we have to do is to get the Solr configuration files and copy them to our project. We can do this by following these steps:
 
-1. [Download the binary distribution of Solr 4.3.0.](https://archive.apache.org/dist/lucene/solr/4.3.0/)
-2. Extract the downloaded package to the desired directory.
-3. Go the root directory of the extracted binary distribution.
-4. Copy the following files from the directory example/solr/collection1/conf to the directory src/main/config: admin-extra.html, admin-extra-menu.menu-bottom.html, admin-extra.menu-top.html, currency.xml, elevate.xml, mapping-FoldToASCII.txt, mapping-ISOLatin1Accent.txt, protwords.xml, schema.xml, scripts.conf, solrconfig.xml, spellings.txt, stopwords.txt, synonyms.txt and update-script.js.
-5. Copy the language specific configuration files found from the directory example/solr/collection1/conf/lang to the directry src/main/config/lang.
+1. [下载Solr 4.3.0二进制版本](https://archive.apache.org/dist/lucene/solr/4.3.0/)
+2. 解压到任意目录
+3. 到根目录下
+4. 将下列文件从example/solr/collection1/conf目录复制到src/main/config目录：admin-extra.html, admin-extra-menu.menu-bottom.html, admin-extra.menu-top.html, currency.xml, elevate.xml, mapping-FoldToASCII.txt, mapping-ISOLatin1Accent.txt, protwords.xml, schema.xml, scripts.conf, solrconfig.xml, spellings.txt, stopwords.txt, synonyms.txt and update-script.js.
+5. 复制example/solr/collection1/conf/lang目录下的文件到src/main/config/lang目录下
 6. Copy the Velocity macros and other files found from the directory example/solr/collection1/conf/velocity to the directry src/main/config/velocity.
 7. Copy the XSL style sheets found from the directory example/solr/collection1/conf/xslt to the directry src/main/config/xslt.
 8. Copy the solr.xml file from the directory exaple/solr/collection1 to the directory src/main/resources.
@@ -433,4 +433,4 @@ After we have started our Solr instance, we can access its admin interface by us
 
 If you want play around with the example application, [you can get it from Github](https://github.com/pkainulainen/maven-examples/tree/master/running-solr-with-maven). This example uses a custom schema because I plan to use it in my Spring Data Solr tutorial. The original example schema is found from the etc directory.
 
-> If you want to learn how to use Spring Data Solr, you should read my Spring Data Solr tutorial.
+> If you want to learn how to use Spring Data Solr, you should read my [Spring Data Solr tutorial.](http://www.petrikainulainen.net/spring-data-solr-tutorial/)
