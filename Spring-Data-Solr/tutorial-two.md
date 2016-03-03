@@ -24,29 +24,29 @@ Solr是一个基于Lucene Core的开源搜索引擎，通过HTTP协议支持多�
 
 ### Maven的构建配置
 
-After we have copied the Solr configuration files to our project, we have to configure our Maven build. The requirements of our Maven build are:
+复制完Solr配置文件后，我们要配置Maven的构建信息，Maven构建需求如下：
 
 * The properties of our Maven build must be read from an external property file. The only exception to this rule is that the version numbers of the dependencies can be declared in our POM file.
-* The build process must copy the Solr configuration files to the configured directory when our Solr instance is started.
+* Solr启动时要保证Slor的配置文件在配置目录下
 * The build process must delete the home directory of our Solr instance when we execute the mvn clean command at command prompt.
 * It must be possible to start our Solr instance by using the Jetty Maven plugin.
 
-We can create a Maven build that fulfils these requirements by following these steps:
+通过下面的步骤可以满足以上需求：
 
-1. Create a POM file.
-2. Get the required dependencies.
-3. Create the properties file that contains the properties of our Maven build.
-4. Edit the solr.xml file.
-5. Read the property values from an external properties file.
-6. Copy the Solr configuration files to the correct directories.
-7. Clean the build.
-8. Configure the Jetty Maven plugin.
+1. 新建一个POM文件
+2. 添加依赖
+3. 新建properties文件
+4. 编辑solr.xml文件
+5. 从外部properties文件中读取属性值
+6. 复制Solr配置文件到当前目录下
+7. clean build
+8. 配置Jetty插件
 
-Let’s get started.
+开始搞起。
 
-#### Creating the POM File
+#### 新建一个POM文件
 
-We have to create a basic POM file for a web application project. This POM file looks as follows:
+内容如下：
 
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -76,17 +76,7 @@ We have to create a basic POM file for a web application project. This POM file 
 
 #### 添加依赖
 
-在`pom.xml`中声明依赖：
-
-* SLF4J
-* SLF4J interceptors for the java.util.logging (JUL) and the java.commons.logging (JCL) logging frameworks.
-* SLF4J Log4J 1.2.X binding.
-* Log4J
-* Solr 4.3.0 (war)
-
-> We need to declare the logging dependencies in our POM file because [the logging configuration of Solr](http://wiki.apache.org/solr/SolrLogging) was changed when Solr 4.3.0 was released.
-
-POM文件依赖部分如下：
+在`pom.xml`中声明依赖，POM文件依赖部分如下：
 
 ```xml
 <!-- SLF4J -->
@@ -134,15 +124,15 @@ First, we have to create the properties file which is used in our Maven build. W
 1. Create the directory profiles/dev to the root directory of our Maven project.
 2. Create the properties file called config.properties to the profiles/dev directory.
 
-Our properties file has three properties which are described in the following:
+properties文件有如下三个属性：
 
-* The solr.detault.core.directory property configures the value of the default core directory. This is a directory that is created under the home directory of our Solr instance. This directory has two subdirectories:
-  * The conf directory contains the configuration of our Solr instance.
-  * The data directory contains the Solr index.
-* The solr.default.core.name property configures the name of the default core.
-* The solr.solr.home property configures the home directory of our Solr installation. In other words, it configures the directory in which the Solr configuration file (solr.xml) and the core specific configuration files are copied when the compile phase of the Maven default lifecycle is invoked.
+* `solr.detault.core.directory`配置了默认的核心目录，它在Solr实例的主目录下，有两个子目录：
+  * conf目录，包含了Solr实例的配置
+  * data目录，包含了Solr的索引
+* `solr.default.core.name`配置了默认核心的名称
+* `solr.solr.home property`配置了Solr的安装目录，也就是 In other words, it configures the directory in which the Solr configuration file (solr.xml) and the core specific configuration files are copied when the compile phase of the Maven default lifecycle is invoked.
 
-Our config.properties file looks as follows:
+config.properties文件内容如下：
 
 ```
 #SOLR PROPERTIES
@@ -156,13 +146,13 @@ solr.default.core.name=todo
 solr.solr.home=
 ```
 
-Second, we must configure the build profiles of our Maven build and use filtering to replace replace the variables included in our resources. We can do this by following these steps:
+Second, we must configure the build profiles of our Maven build and use filtering to replace replace the variables included in our resources. 步骤如下：
 
 1. Create a single profile called dev and ensure that it is the default profile of our build.
 2. Declare a property called build.profile.id and set its value to ‘dev’.
 3. Create a filter that reads the profile specific configuration file and replaces the variables found from our resources with the actual property values.
 
-We can finish the steps one and two by adding the following profile configuration to the profiles section of our POM file:
+在POM文件中的profiles元素下加入下面的profile配置：
 
 ```xml
 <profile>
@@ -176,7 +166,7 @@ We can finish the steps one and two by adding the following profile configuratio
 </profile>
 ```
 
-We can finish the step three by adding the following XML to the build section of our POM file:
+在POM文件中的build元素下加入下面的配置：
 
 ```xml
 <filters>
@@ -190,39 +180,39 @@ We can finish the step three by adding the following XML to the build section of
 </resources>
 ```
 
-#### Editing the solr.xml File
+#### 编辑solr.xml文件
 
-Because we configure the name and the instance directory of the Solr default core in our profile specific configuration file, we have to make some changes to the solr.xml file. We can make these changes by following these steps:
+Because we configure the name and the instance directory of the Solr default core in our profile specific configuration file, we have to make some changes to the solr.xml file. 步骤如下：
 
 1. Set the value of the defaultCoreName attribute of the cores element. Use the value of the solr.default.core.name property that is found from our profile specific properties file.
 2. Set the value of the name attribute of the core element. Use the value of the solr.default.core.name property that is found from our profile specific configuration file.
 3. Set the value of the instanceDir attribute of the core element. Use the value of the solr.default.core.directory property that is found from our profile specific configuration file.
 
-The solr.xml file looks as follows (the relevant parts are highlighted):
+solr.xml文件如下（相关的是第四行和倒数第三行）：
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <solr persistent="true">
   <cores adminPath="/admin/cores"
->         defaultCoreName="${solr.default.core.name}"
+         defaultCoreName="${solr.default.core.name}"
          host="${host:}"
          hostPort="${jetty.port:}"
          hostContext="${hostContext:}"
          zkClientTimeout="${zkClientTimeout:15000}">
- >   <core name="${solr.default.core.name}" instanceDir="${solr.default.core.directory}" />
+    <core name="${solr.default.core.name}" instanceDir="${solr.default.core.directory}" />
   </cores>
 </solr>
 ```
 
-#### Reading the Property Values From an External Properties File
+#### 从外部Properties文件读取属性值
 
-Because we want that all property values used in our POM file are read from an external properties file, we have to use a plugin called the Properties Maven plugin. We can configure this plugin by following these steps:
+为了让POM中用到的属性都从外部文件读取，需要用到Maven的Properties插件，配置步骤如下：
 
-1. Ensure that the properties are read from the profile specific configuration file.
-2. Create an execution that runs the read-project-properties goal of the Properties Maven plugin in the initialize phase of the Maven default lifecycle.
-3. Create an execution that runs the read-project-properties goal of the Properties Maven plugin in the pre-clean phase of the Maven clean lifecycle.
+1. 配置从外部文件读取属性值
+2. 配置在初始化阶段执行read-project-properties目标
+3. 配置在pre-clean阶段执行read-project-properties目标
 
-The configuration of the Properties Maven plugin looks as follows:
+插件配置如下：
 
 ```xml
 <plugin>
@@ -256,11 +246,11 @@ The configuration of the Properties Maven plugin looks as follows:
 </plugin>
 ```
 
-#### Copying the Solr Configuration Files to the Correct Directories
+#### 复制Solr配置文件到正确目录
 
-Our next step is to copy the Solr configuration files to the home directory of our Solr instance. We will use the Maven Resources plugin for this purpose.
+我们通过Maven的Resources插件来实现。
 
-The first thing that we have to do is to add the Maven Resources plugin to the plugins section of our pom.xml file. We can do this by adding the following snippet to the plugins section of our POM file:
+首先将Resources插件加入POM文件：
 
 ```xml
 <plugin>
@@ -273,17 +263,17 @@ The first thing that we have to do is to add the Maven Resources plugin to the p
 </plugin>
 ```
 
-Now we need to configure the executions that copies the Solr configuration files to the correct directories. We can do this by following these steps:
+下面配置Resources插件执行复制操作，步骤如下：
 
-1. We need to copy the solr.xml file found from the src/main/resources directory to the ${solr.solr.home} directory. This directory is the home directory of our Solr instance. Also, we need apply properties filtering to it because we want replace the placeholders found from that file with the property values found from our profile specific properties file.
-2. We need to copy the contents of the src/main/config directory to the ${solr.solr.home}/${solr.default.core.directory}/conf directory. This directory contains the configuration of our Solr instance’s default core.
+1. 复制`src/main/resources`目录下的solr.xml文件到`${solr.solr.home}`目录，这是Solr实例的主目录，Also, we need apply properties filtering to it because we want replace the placeholders found from that file with the property values found from our profile specific properties file.
+2. 还需要复制`src/main/config`目录下的内容到`${solr.solr.home}/${solr.default.core.directory}/conf`目录下，这个目录包含了我们Solr实例的默认核心的配置
 
-First, we need to copy the solr.xml file to the home directory of our Solr instance. We can do this by following these steps:
+为了实现上面的步骤1，执行下面的操作：
 
-1. Create an execution that invokes the copy-resources goal of the Resources Maven plugin in the compile phase of the default lifecycle.
+1. 配置Resources插件在编译阶段执行copy-resources目标
 2. Configure the execution to copy the solr.xml file found from the src/main/resources directory to the ${solr.solr.home} directory. Remember to apply properties filtering to the solr.xml file.
 
-The configuration of our execution looks as follows:
+配置内容如下：
 
 ```xml
 <execution>
@@ -311,12 +301,12 @@ The configuration of our execution looks as follows:
 </execution>
 ```
 
-Second, we need to copy the contents of the src/main/config directory to the ${solr.solr.home}/${solr.default.core.directory}/conf directory. We can do this by following these steps:
+为实现步骤2，执行下面操作：
 
-1. Create an execution that invokes the copy-resources goal of the Resources Maven plugin in the compile phase of the default lifecycle.
-2. Configure the execution to copy contents of the src/main/config directory to the to the ${solr.solr.home}/${solr.default.core.directory}/conf directory.
+1. 配置Resources插件咋编译阶段执行copy-resources目标
+2. 配置execution从`src/main/config`复制内容到`${solr.solr.home}/${solr.default.core.directory}/conf`目录
 
-The configuration of our execution looks as follows:
+配置内容如下：
 
 ```xml
 <execution>
@@ -349,12 +339,12 @@ When we clean our build, we have to delete two directories that are described in
 * We need to delete the home directory of our Solr instance.
 * We need to delete the overlays directory that is created to the root directory of our project when we start our Solr instance by using the Jetty Maven plugin.
 
-We can configure the Maven Clean plugin to delete these directories. If we want to delete additional directories when the command mvn clean is invoked, we have to follow these steps:
+通过Maven的Clean插件来删除这些目录，配置步骤如下：
 
-1. Add the fileSets element to the configuration of the Maven Clean plugin.
+1. 在Clean插件的配置下添加`fileSets`元素
 2. Configure the deleted directories by adding fileSet elements inside the fileSets element. We can configure the path of the deleted directory by adding the directory element inside the fileSet element. We can use both relative and absolute paths. If we use relative paths, the starting point of that path is the root directory of our project.
 
-If we want to delete the foo directory that is found from the root directory of our project, we have to use the following configuration:
+如果我们想删除项目根目录下的foo目录，就得如下配置：
 
 ```xml
 <configuration>
@@ -393,11 +383,11 @@ The configuration of the Maven Clean plugin that deletes the target directory, t
 
 我们通过Jetty插件运行Solr，配置如下：
 
-1. Configure Jetty to listen the port 8983.
+1. 配置Jetty监听8983端口
 2. Ensure that system properties are read from the profile specific configuration file. This property file contains a property called solr.solr.home which specifies the home directory of our Solr instance. If this property is missing, we cannot start our Solr instance because Solr cannot find its configuration files.
 3. Specify that the context path of our application is /solr.
 
-The configuration of the Jetty Maven plugin looks as follows:
+Jetty插件配置如下：
 
 ```xml
 <plugin>
