@@ -388,9 +388,9 @@ The configuration of the Maven Clean plugin that deletes the target directory, t
 </plugin>
 ```
 
-#### Configuring the Jetty Maven Plugin
+#### 配置Jetty插件
 
-We will run our Solr by using the Jetty Maven plugin. We can configure it by following these steps:
+我们通过Jetty插件运行Solr，配置如下：
 
 1. Configure Jetty to listen the port 8983.
 2. Ensure that system properties are read from the profile specific configuration file. This property file contains a property called solr.solr.home which specifies the home directory of our Solr instance. If this property is missing, we cannot start our Solr instance because Solr cannot find its configuration files.
@@ -422,15 +422,15 @@ The configuration of the Jetty Maven plugin looks as follows:
 </plugin>
 ```
 
-### Running Solr
+### 运行Solr
 
-We have now created a Maven build that can be used for running Solr in a development environment. We have got two options for starting our Solr instance:
+现在Solr的环境就搭好了，启动它有两个方式：
 
-* We can execute the mvn jetty:run command at command prompt.
-* We can execute the mvn jetty:run-war command at command prompt.
+* 执行`mvn jetty:run`命令
+* 执行`mvn jetty:run-war`命令
 
-After we have started our Solr instance, we can access its admin interface by using the following url address: http://localhost:8983/solr.
+启动后，访问<http://localhost:8983/solr>就能看到运行成功了
 
 If you want play around with the example application, [you can get it from Github](https://github.com/pkainulainen/maven-examples/tree/master/running-solr-with-maven). This example uses a custom schema because I plan to use it in my Spring Data Solr tutorial. The original example schema is found from the etc directory.
 
-> If you want to learn how to use Spring Data Solr, you should read my [Spring Data Solr tutorial.](http://www.petrikainulainen.net/spring-data-solr-tutorial/)
+> 了解更多关于Spring Data Solr，请移步[Spring Data Solr tutorial.](http://www.petrikainulainen.net/spring-data-solr-tutorial/)
