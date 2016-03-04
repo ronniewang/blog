@@ -5,6 +5,7 @@ This document covers getting Solr up and running, ingesting a variety of data so
 # Requirements
 
 To follow along with this tutorial, you will need...
+
 1. To meet the system requirements
 2. An Apache Solr release. This tutorial was written using Apache Solr 5.3.1.
 
@@ -293,6 +294,7 @@ The above request returns only one document ("numFound":1) - from the response:
 ```
 
 ## Phrase search
+
 To search for a multi-term phrase, enclose it in double quotes: q="multiple terms here". E.g. to search for "CAS latency" - note that the space between terms must be converted to "+" in a URL (the Admin UI will handle URL encoding for you automatically):
 
 ```
@@ -361,7 +363,7 @@ To see facet counts from all documents (q=*:*): turn on faceting (facet=true), a
 ```
 curl http://localhost:8983/solr/gettingstarted/select?wt=json&indent=true&q=*:*&rows=0 \
                                                   &facet=true&facet.field=manu_id_s
-                                                  ```
+```
                                                   
 In your terminal, you'll see:
 
@@ -400,7 +402,7 @@ In your terminal, you'll see:
     "facet_dates":{},
     "facet_ranges":{},
     "facet_intervals":{}}}
-    ```
+```
     
 ## Range facets
 
@@ -419,7 +421,7 @@ curl http://localhost:8983/solr/gettingstarted/select?q=*:*&wt=json&indent=on&ro
                                                      &f.price.facet.range.end=600 \
                                                      &f.price.facet.range.gap=50 \
                                                      &facet.range.other=after
-                                                     ```
+```
 
 In your terminal you will see:
 
@@ -465,7 +467,7 @@ In your terminal you will see:
         "end":600.0,
         "after":2}},
     "facet_intervals":{}}}
-    ```
+```
     
 ## Pivot facets
 
@@ -474,7 +476,7 @@ Another faceting type is pivot facets, also known as "decison trees", allowing t
 ```
 curl http://localhost:8983/solr/gettingstarted/select?q=*:*&rows=0&wt=json&indent=on \
                                                   &facet=on&facet.pivot=cat,inStock
-                                                  ```
+```
                                                   
 This results in the following response (trimmed to just the book category output), which says out of 14 items in the "book" category, 12 are in stock and 2 are not in stock:
 
