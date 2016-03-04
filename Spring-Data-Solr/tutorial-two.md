@@ -26,10 +26,10 @@ Solr是一个基于Lucene Core的开源搜索引擎，通过HTTP协议支持多�
 
 复制完Solr配置文件后，我们要配置Maven的构建信息，Maven构建需求如下：
 
-* The properties of our Maven build must be read from an external property file. The only exception to this rule is that the version numbers of the dependencies can be declared in our POM file.
+* 从外部配置文件获取属性值，除了依赖的版本号
 * Solr启动时要保证Slor的配置文件在配置目录下
-* The build process must delete the home directory of our Solr instance when we execute the mvn clean command at command prompt.
-* It must be possible to start our Solr instance by using the Jetty Maven plugin.
+* 当执行mvn clean时要删除Solr实例的主文件夹
+* 可用通过Jetty插件启动
 
 通过下面的步骤可以满足以上需求：
 
@@ -117,20 +117,18 @@ Solr是一个基于Lucene Core的开源搜索引擎，通过HTTP协议支持多�
 
 #### 创建Properties文件
 
-Our next step is to create the properties file that is used in our Maven build, and add the required build profile configuration to our POM file.
+步骤如下：
 
-First, we have to create the properties file which is used in our Maven build. We can do this by following these steps:
+1. 在Maven项目下新建`profiles/dev`文件夹
+2. 在文件夹下新建`config.properties`文件
 
-1. Create the directory profiles/dev to the root directory of our Maven project.
-2. Create the properties file called config.properties to the profiles/dev directory.
-
-properties文件有如下三个属性：
+`config.properties`文件有如下三个属性：
 
 * `solr.detault.core.directory`配置了默认的核心目录，它在Solr实例的主目录下，有两个子目录：
   * conf目录，包含了Solr实例的配置
   * data目录，包含了Solr的索引
 * `solr.default.core.name`配置了默认核心的名称
-* `solr.solr.home property`配置了Solr的安装目录，也就是 In other words, it configures the directory in which the Solr configuration file (solr.xml) and the core specific configuration files are copied when the compile phase of the Maven default lifecycle is invoked.
+* `solr.solr.home`配置了Solr的安装目录
 
 config.properties文件内容如下：
 
@@ -148,8 +146,8 @@ solr.solr.home=
 
 Second, we must configure the build profiles of our Maven build and use filtering to replace replace the variables included in our resources. 步骤如下：
 
-1. Create a single profile called dev and ensure that it is the default profile of our build.
-2. Declare a property called build.profile.id and set its value to ‘dev’.
+1. 添加一个叫做dev的profile作为项目的默认profile
+2. 声明一个`build.profile.id`属性元素，值设置为‘dev’
 3. Create a filter that reads the profile specific configuration file and replaces the variables found from our resources with the actual property values.
 
 在POM文件中的profiles元素下加入下面的profile配置：
@@ -332,11 +330,11 @@ solr.xml文件如下（相关的是第四行和倒数第三行）：
 </execution>
 ```
 
-#### Cleaning the Build
+#### Clean Build
 
-When we clean our build, we have to delete two directories that are described in the following:
+clean时要删除下面的两个文件夹：
 
-* We need to delete the home directory of our Solr instance.
+* 删除Solr实例的主目录
 * We need to delete the overlays directory that is created to the root directory of our project when we start our Solr instance by using the Jetty Maven plugin.
 
 通过Maven的Clean插件来删除这些目录，配置步骤如下：
