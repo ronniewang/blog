@@ -1,19 +1,19 @@
-# Overview
+# 概述
 
-This document covers getting Solr up and running, ingesting a variety of data sources into multiple collections, and getting a feel for the Solr administrative and search interfaces.
+本文描述了如何运行和启动solr，并将多种数据导入不同collection，同时对solr的管理界面和查询接口有一个感性的认识。
 
-# Requirements
+# 前期准备
 
-To follow along with this tutorial, you will need...
+开始教程前，需要如下准备：
 
-1. To meet the system requirements
-2. An Apache Solr release. This tutorial was written using Apache Solr 5.3.1.
+1. [查看系统需求](http://lucene.apache.org/solr/api/SYSTEM_REQUIREMENTS.html)
+2. Solr，本教程基于Solr 5.3.1
 
-# Getting Started
+# 开始吧
 
-Please run the browser showing this tutorial and the Solr server on the same machine so tutorial links will correctly point to your Solr server.
+请保证运行solr服务的机器和你使用的浏览器在一台机器上，这样文章中的链接则可以正确显示。
 
-Begin by unzipping the Solr release and changing your working directory to the subdirectory where Solr was installed. Note that the base directory name may vary with the version of Solr downloaded. For example, with a shell in UNIX, Cygwin, or MacOS:
+解压下载的Solr压缩包，进到安装目录的子目录下，不同版本的解压目录名称会根据版本的不同而不同，例如可以在Shell进行如下操作：
 
 ```
 /:$ ls solr*
@@ -22,7 +22,7 @@ solr-5.3.1.zip
 /:$ cd solr-5.3.1/
 ```
 
-To launch Solr, run: bin/solr start -e cloud -noprompt
+启动Solr，运行bin/solr start -e cloud -noprompt命令
 
 ```
 /solr-5.3.1:$ bin/solr start -e cloud -noprompt
@@ -43,7 +43,7 @@ SolrCloud example running, please visit http://localhost:8983/solr
 /solr-5.3.1:$ _
 ```
 
-You can see that the Solr is running by loading the Solr Admin UI in your web browser: http://localhost:8983/solr/. This is the main starting point for administering Solr.
+可以通过在浏览器中访问<http://localhost:8983/solr/>来查看是否启动成功。
 
 Solr will now be running two "nodes", one on port 7574 and one on port 8983. There is one collection created automatically, gettingstarted, a two shard collection, each with two replicas. The Cloud tab in the Admin UI diagrams the collection nicely:
 
@@ -51,15 +51,13 @@ Solr will now be running two "nodes", one on port 7574 and one on port 8983. The
 
 Solr Quick Start: SolrCloud diagram
 
-## Indexing Data
+## 索引数据
 
-Your Solr server is up and running, but it doesn't contain any data. The Solr install includes the bin/post* tool in order to facilitate getting various types of documents easily into Solr from the start. We'll be using this tool for the indexing examples below.
+Solr服务已经起来了，但是还没有任何数据，bin/post*的工具可以帮助我们快速导入不同的文档数据，下面我们使用这个工具来进行演示。
 
-You'll need a command shell to run these examples, rooted in the Solr install directory; the shell from where you launched Solr works just fine.
+> NOTE: 当前bin/post工具还又没Windows版本，但是Java程序是可以使用的，可以在[Post Tool, Windows section](https://cwiki.apache.org/confluence/display/solr/Post+Tool#PostTool-Windows)了解更多内容。
 
-> NOTE: Currently the bin/post tool does not have a comparable Windows script, but the underlying Java program invoked is available. See the Post Tool, Windows section for details.
-
-## Indexing a directory of "rich" files
+## 索引富文本文件
 
 Let's first index local "rich" files including HTML, PDF, Microsoft Office formats (such as MS Word), plain text and many other formats. bin/post features the ability to crawl a directory of files, optionally recursively even, sending the raw content of each file into Solr for extraction and indexing. A Solr install includes a docs/ subdirectory, so that makes a convenient set of (mostly) HTML files built-in to start with.
 
