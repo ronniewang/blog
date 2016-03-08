@@ -36,4 +36,6 @@
 
 ### 等待连接完成，ok了
 
+![png04](https://github.com/ronniewang/blog/blob/master/image/jvisualvm04.png)
+
 更多内容可参考<http://docs.oracle.com/javase/6/docs/technotes/guides/visualvm/jmx_connections.html>
