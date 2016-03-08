@@ -32,7 +32,7 @@
 
 ## 双击生成的JMX连接
 
-![png02](https://github.com/ronniewang/blog/blob/master/image/jvisualvm02.png)
+![png03](https://github.com/ronniewang/blog/blob/master/image/jvisualvm03.png)
 
 ## 等待连接完成，ok了
 
