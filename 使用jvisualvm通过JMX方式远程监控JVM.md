@@ -27,4 +27,6 @@
 2. 由于我们将-Dcom.sun.management.jmxremote.authenticate设置为了false，所以无需用户名和密码
 3. 点击确定
 
+## 
+
 更多内容可参考<http://docs.oracle.com/javase/6/docs/technotes/guides/visualvm/jmx_connections.html>
