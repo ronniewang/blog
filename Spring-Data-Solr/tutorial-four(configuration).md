@@ -368,11 +368,11 @@ Jetty Maven plugin配置代码如下：
 我们介绍了如下几点：
 
 * 配置Maven依赖
-* 下面配置Spring Data Solr在开发环境下使用内嵌Solr server
-* 下面配置Spring Data Solr在生产环境下使用HTTP Solr server
+* 配置Spring Data Solr在开发环境下使用内嵌Solr server
+* 配置Spring Data Solr在生产环境下使用HTTP Solr server
 * 使用Spring Framework提供bean definition profiles来管理不同环境的不同配置
 
-The [next part待修改](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-crud-almost/) of my Spring Data Solr tutorial describes how we can add new document to Solr index, update the information of an existing documents and delete documents from the Solr index.
+The [next part](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-five(crud-almost).md) of my Spring Data Solr tutorial describes how we can add new document to Solr index, update the information of an existing documents and delete documents from the Solr index.
 
 PS. 可在[Github](https://github.com/pkainulainen/spring-data-solr-examples/tree/master/query-methods)获取源代码
 
