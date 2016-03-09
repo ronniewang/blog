@@ -1,4 +1,4 @@
-从[前文](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-introduction-to-solr/)知道Solr提供了REST式的http接口来方便的进行更新和查询索引信息，但是开发环境的配置过于繁琐。
+从[前文](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-three(introduction-to-solr).md)知道Solr提供了REST式的http接口来方便的进行更新和查询索引信息，但是开发环境的配置过于繁琐。
 
 为此，solr提供了两种替代方法使我们可以在应用中使用solr。
 
