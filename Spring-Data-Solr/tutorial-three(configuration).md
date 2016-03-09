@@ -43,25 +43,6 @@ Add the Spring Data Solr dependency (version 1.0.0.RC1) to the dependencies sect
 Add the Solr core dependency (version 4.1.0) to the dependencies section of our POM file and exclude the SLF4J JDK14 binding. Because Solr core is required by the embedded Solr server, we can skip this step if we are not using the embedded Solr server.
 We can complete these steps by adding the following XML to the dependencies section of the POM file:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
 <!-- Spring Data Solr -->
 <dependency>
     <groupId>org.springframework.data</groupId>
@@ -100,8 +81,7 @@ The solr.server.url property specifies the url of the used Solr server. The valu
 The solr.solr.home configures the home directory of Solr. The value of this property is used to configure the home directory of the embedded Solr server which is used in the development environment.
 The content of the application.properties file looks as follows:
 
-1
-2
+
 solr.server.url=http://localhost:8983/solr/
 solr.solr.home=
 Configuring the Embedded Solr Server
@@ -119,39 +99,7 @@ Create a method called solrServerFactoryBean() and annotate this method with the
 Create a method called solrTemplate() and annotate this method with the @Bean annotation. The implementation of this method creates a new SolrTemplate object and passes the used SolrServer implementation as a constructor argument.
 The source code of the EmbeddedSolrContext class looks as follows:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -195,32 +143,7 @@ Configure the embedded Solr server bean by using the embedded-solr-server elemen
 Configure the Solr template bean. Set the configured embedded Solr server bean as constructor argument.
 The contents of the exampleApplicationContext-solr.xml file looks as follows:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -262,39 +185,6 @@ Create a method called solrServerFactoryBean() and annotate this method with the
 Create a method called solrTemplate() and annotate this method with the @Bean annotation. The implementation of this method creates a new SolrTemplate object and passes the used SolrServer implementation as a constructor argument.
 The source code of the HttpSolrContext class looks as follows:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -338,32 +228,7 @@ Configure the HTTP Solr server bean by using the solr-server element of the solr
 Configure the Solr template bean. Set the configured HTTP Solr server bean as a constructor argument.
 The content of the exampleApplicationContext-solr.xml file looks as follows:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -409,20 +274,7 @@ Create a profile for development environment. Set the id of this profile to ‘d
 Create a profile for the production environment. Set the id of this profile to ‘prod’ and set the value of the build.profile.id property to ‘prod’.
 The configuration of our Maven profiles looks as follows:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
+
 <profiles>
     <profile>
         <id>dev</id>
@@ -446,11 +298,9 @@ Create a properties file called system.properties to the profiles/dev directory.
 Create a properties file called system.properties to the profiles/prod directory. This properties file contains the system properties of the production profile.
 The content of the properties file used to configure the system properties of the development profile looks as follows:
 
-1
 spring.profiles.active=dev
 The content of the properties file used to configure the system properties of the production profile looks as follows:
 
-1
 spring.profiles.active=prod
 Configuring the Jetty Maven Plugin
 We can configure the Jetty Maven plugin by following these steps:
@@ -460,16 +310,6 @@ Configure the stopKey and stopPort of the Jetty Maven plugin.
 Configure the location of the properties file containing the used system properties.
 The configuration of the Jetty Maven plugin looks as follows:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
 <plugin>
      <groupId>org.mortbay.jetty</groupId>
      <artifactId>jetty-maven-plugin</artifactId>
