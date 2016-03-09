@@ -423,3 +423,14 @@ Jetty插件配置如下：
 可以从作者的[Github](https://github.com/pkainulainen/maven-examples/tree/master/running-solr-with-maven)获取代码
 
 > 了解更多关于Spring Data Solr，请移步[Spring Data Solr tutorial.](http://www.petrikainulainen.net/spring-data-solr-tutorial/)
+
+* [Running Solr with Maven](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-two(running-solr-with-maven).md) 
+* [Spring Data Solr Tutorial: Introduction to Solr](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-three(introduction-to-solr).md) 
+* [Spring Data Solr Tutorial: Configuration](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-four(configuration).md) 
+* [Spring Data Solr Tutorial: CRUD (Almost)](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-five(crud-almost).md) 
+* [Spring Data Solr Tutorial: Query Methods](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-six(query-methods).md) 
+* [Spring Data Solr Tutorial: Adding Custom Methods to a Single Repository](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-seven(adding-custom-methods-to-a-single-repository).md) 
+* [Spring Data Solr Tutorial: Dynamic Queries](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-eight(dynamic).md) 
+* [Spring Data Solr Tutorial: Sorting](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-nine(sorting).md) 
+* [Spring Data Solr Tutorial: Pagination](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-ten(pagination).md) 
+* [Spring Data Solr Tutorial: Adding Custom Methods to All Repositories](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-eleven(adding-custom-methods-to-all-repositories).md) 
