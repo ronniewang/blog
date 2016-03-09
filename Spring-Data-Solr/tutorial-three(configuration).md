@@ -1,4 +1,4 @@
-In the previous part of my Spring Data Solr tutorial, we learned that Solr provides a REST-like HTTP API which can be used to add information to Solr index and execute queries against indexed data. The problem is that running a separate Solr instance in a development environment is a bit cumbersome.
+In the [previous part](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-introduction-to-solr/) of my Spring Data Solr tutorial, we learned that Solr provides a REST-like HTTP API which can be used to add information to Solr index and execute queries against indexed data. The problem is that running a separate Solr instance in a development environment is a bit cumbersome.
 
 However, not all hope is lost because Solr provides two alternative server implementations which we can use in our applications. These implementations are described in the following:
 
