@@ -98,7 +98,7 @@ solr.solr.home=
 
 1. 新建`EmbeddedSolrContext`类，用`@Configuration`注解进行标注
 2. 添加`@EnableSolrRepositories`注解，并配置package
-3. 添加`@Profile`注解，属性值设置为‘dev’，这表明只有开发环境下这个配置类才会有效
+3. 添加`@Profile`注解，属性值设置为‘dev’，这表明只有‘dev’被激活时这个配置类才会有效
 4. 添加`@PropertySource`注解，属性值设置为‘classpath:application.properties’，这样就把这个文件对应的`PropertySource`加到了`Environment`中
 5. 添加一个`Environment`类型的字段，并加上`@Resource`注解 annotation，让Spring注入`Environment`对象
 6. 添加`solrServerFactoryBean()`方法，加上`@Bean`注解，方法实现返回一个`EmbeddedSolrServerFactoryBean`对象，solrHome的值设置为配置文件中的值
@@ -193,11 +193,11 @@ public class EmbeddedSolrContext {
 
 1. 新建`HttpSolrContext`类，加上`@Configuration`注解
 2. 添加`@EnableSolrRepositories`注解，并配置package
-3. Annotate the created class with a @Profile annotation and set its value to ‘prod’. This means that this configuration class is bypassed unless the ‘prod’ profile have been activated.
-4. Annotate the class with the @PropertySource annotation and set its value to ‘classpath:application.properties’. This configures the location of our property file and adds a PropertySource to Spring’s Environment.
-5. Add an Environment field to the class and annotate that field with the @Resource annotation. The injected Environment is used to access the properties which we added to our properties file.
-6. Create a method called solrServerFactoryBean() and annotate this method with the @Bean annotation. The implementation of this method create a new HttpSolrServerFactoryBean object, sets the value of the Solr server url and returns the created object.
-7. Create a method called solrTemplate() and annotate this method with the @Bean annotation. The implementation of this method creates a new SolrTemplate object and passes the used SolrServer implementation as a constructor argument.
+3. 添加`@Profile`注解，属性值设置为‘prod’，这表明只有‘prod’被激活时这个配置类才会有效
+4. 添加`@PropertySource`注解，属性值设置为‘classpath:application.properties’，这样就把这个文件对应的`PropertySource`加到了`Environment`中
+5. 添加一个`Environment`类型的字段，并加上`@Resource`注解 annotation，让Spring注入`Environment`对象
+6. 添加`solrServerFactoryBean()`方法，加上`@Bean`注解，方法实现返回一个`HttpSolrServerFactoryBean`对象，url的值设置为配置文件中的值
+7. 添加`solrTemplate()`方法，加上`@Bean`注解，方法实现返回一个`SolrTemplate`对象，传入上面的`solrServerFactoryBean`作为构造参数
 
 `HttpSolrContext`类代码如下：
 
