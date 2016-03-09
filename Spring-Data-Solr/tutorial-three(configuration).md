@@ -22,13 +22,6 @@ Both of these steps are described with more details in the following.
 Adding the Spring Milestone Maven Repository to the POM File
 We can add the Spring milestone Maven repository to our POM file by adding the following XML to the pom.xml file:
 
-1
-2
-3
-4
-5
-6
-7
 <repositories>
     <repository>
         <id>spring-milestone</id>
