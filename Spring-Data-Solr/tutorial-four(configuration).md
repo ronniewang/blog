@@ -34,10 +34,10 @@
 
 步骤如下：
 
-1. Add the Spring Data Solr dependency (version 1.0.0.RC1) to the dependencies section of our POM file.
-2. Add the Solr core dependency (version 4.1.0) to the dependencies section of our POM file and exclude the SLF4J JDK14 binding. Because Solr core is required by the embedded Solr server, we can skip this step if we are not using the embedded Solr server.
+1. 添加Spring Data Solr依赖到POM文件
+2. 添加Solr core依赖到POM文件，排除SLF4J JDK14依赖，因为Solr core是内嵌server使用的依赖，如果不使用内嵌server，可以跳过此步
 
-We can complete these steps by adding the following XML to the dependencies section of the POM file:
+代码如下：
 
 ```xml
 <!-- Spring Data Solr -->
@@ -61,22 +61,22 @@ We can complete these steps by adding the following XML to the dependencies sect
 </dependency>
 ```
 
-## Configuring Spring Data Solr
+## 配置Spring Data Solr
 
 This section describes how we can configure Spring Data Solr to use different Solr servers in the development and production environment. We will use the embedded Solr server in the development environment and the HTTP Solr server in the production environment.
 
-We can configure Spring Data Solr by following these steps:
+步骤如下：
 
-1. Create a properties file.
+1. 新建Properties文件
 2. Configure the embedded Solr server.
 3. Configure the HTTP Solr server.
 4. Set the active bean definition profile.
 
-These steps are described with more details in the following subsections.
+具体步骤如下：
 
-### Creating the Properties File
+### 新建Properties文件
 
-The name of our properties file is application.properties and we will use it to configure two properties which are described in the following:
+新建Properties文件，起名application.properties， and we will use it to configure two properties which are described in the following:
 
 * The `solr.server.url` property specifies the url of the used Solr server. The value of this property is used to configure the HTTP Solr server which is used in the production environment.
 * The `solr.solr.home` configures the home directory of Solr. The value of this property is used to configure the home directory of the embedded Solr server which is used in the development environment.
