@@ -144,11 +144,11 @@ solr.default.core.name=todo
 solr.solr.home=
 ```
 
-Second, we must configure the build profiles of our Maven build and use filtering to replace replace the variables included in our resources. 步骤如下：
+然后，配置profile，步骤如下：
 
 1. 添加一个叫做dev的profile作为项目的默认profile
 2. 声明一个`build.profile.id`属性元素，值设置为‘dev’
-3. Create a filter that reads the profile specific configuration file and replaces the variables found from our resources with the actual property values.
+3. 添加一个filter，用于从特定配置文件读取属性来替换pom中的属性占位符
 
 在POM文件中的profiles元素下加入下面的profile配置：
 
@@ -182,9 +182,9 @@ Second, we must configure the build profiles of our Maven build and use filterin
 
 Because we configure the name and the instance directory of the Solr default core in our profile specific configuration file, we have to make some changes to the solr.xml file. 步骤如下：
 
-1. Set the value of the defaultCoreName attribute of the cores element. Use the value of the solr.default.core.name property that is found from our profile specific properties file.
-2. Set the value of the name attribute of the core element. Use the value of the solr.default.core.name property that is found from our profile specific configuration file.
-3. Set the value of the instanceDir attribute of the core element. Use the value of the solr.default.core.directory property that is found from our profile specific configuration file.
+1. 使用配置文件中`solr.default.core.name`的值设置`cores`元素的`defaultCoreName`属性值
+2. 使用配置文件中`solr.default.core.name`的值设置`core`元素的`name`属性值
+3. 使用配置文件中`solr.default.core.directory`的值设置`core`元素的`instanceDir`属性值
 
 solr.xml文件如下（相关的是第四行和倒数第三行）：
 
@@ -335,7 +335,7 @@ solr.xml文件如下（相关的是第四行和倒数第三行）：
 clean时要删除下面的两个文件夹：
 
 * 删除Solr实例的主目录
-* We need to delete the overlays directory that is created to the root directory of our project when we start our Solr instance by using the Jetty Maven plugin.
+* 使用Jetty Maven plugin在启动solr时删除overlays文件夹
 
 通过Maven的Clean插件来删除这些目录，配置步骤如下：
 
@@ -382,8 +382,8 @@ The configuration of the Maven Clean plugin that deletes the target directory, t
 我们通过Jetty插件运行Solr，配置如下：
 
 1. 配置Jetty监听8983端口
-2. Ensure that system properties are read from the profile specific configuration file. This property file contains a property called solr.solr.home which specifies the home directory of our Solr instance. If this property is missing, we cannot start our Solr instance because Solr cannot find its configuration files.
-3. Specify that the context path of our application is /solr.
+2. 确保可以从配置文件中读取属性，因为其中有`solr.solr.home`属性，如果没有这个属性，solr不能启动，因为找不到配置文件了
+3. `contextPath`设置为/solr.
 
 Jetty插件配置如下：
 
@@ -420,6 +420,6 @@ Jetty插件配置如下：
 
 启动后，访问<http://localhost:8983/solr>就能看到运行成功了
 
-If you want play around with the example application, [you can get it from Github](https://github.com/pkainulainen/maven-examples/tree/master/running-solr-with-maven). This example uses a custom schema because I plan to use it in my Spring Data Solr tutorial. The original example schema is found from the etc directory.
+可以从作者的[Github](https://github.com/pkainulainen/maven-examples/tree/master/running-solr-with-maven)获取代码
 
 > 了解更多关于Spring Data Solr，请移步[Spring Data Solr tutorial.](http://www.petrikainulainen.net/spring-data-solr-tutorial/)
