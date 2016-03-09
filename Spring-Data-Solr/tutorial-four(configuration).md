@@ -2,7 +2,7 @@
 
 为此，solr提供了两种替代方法使我们可以在应用中使用solr。
 
-* [embedded Solr server](http://wiki.apache.org/solr/Solrj#EmbeddedSolrServer)直接连接Solr core，在开发环境是一个很好的选择，[但是不推荐在产品环境下使用](http://wiki.apache.org/solr/EmbeddedSolr)
+* [内嵌Solr server](http://wiki.apache.org/solr/Solrj#EmbeddedSolrServer)直接连接Solr core，在开发环境是一个很好的选择，[但是不推荐在产品环境下使用](http://wiki.apache.org/solr/EmbeddedSolr)
 * [HTTP Solr server](http://wiki.apache.org/solr/Solrj#HttpSolrServer)通过HTTP连接外部的Solr core，这是使用Solr的推荐方式
 
 这篇文章介绍怎样通过Maven配置依赖，还有Spring Data Solr的配置
@@ -63,7 +63,7 @@
 
 ## 配置Spring Data Solr
 
-This section describes how we can configure Spring Data Solr to use different Solr servers in the development and production environment. We will use the embedded Solr server in the development environment and the HTTP Solr server in the production environment.
+下面配置让Spring Data Solr在不同环境下使用不同的Solr server
 
 步骤如下：
 
@@ -96,13 +96,13 @@ solr.solr.home=
 
 通过如下步骤建立配置类：
 
-1. 新建EmbeddedSolrContext类，用@Configuration注解进行标注
-2. Enable Spring Data Solr repositories by annotating that class with the @EnableSolrRepositories annotation and  configuring the root package of our Solr repositories.
-3. Annotate the created class with the @Profile annotation and set its value to ‘dev’. This means that this configuration class is bypassed unless the ‘dev’ profile have been activated.
-4. Annotate the class with the @PropertySource annotation and set its value to ‘classpath:application.properties’. This configures the location of our property file and adds a PropertySource to Spring’s Environment.
-5. Add an Environment field to the class and annotate that field with the @Resource annotation. The injected Environment is used to access the properties which we added to our properties file.
-6. Create a method called solrServerFactoryBean() and annotate this method with the @Bean annotation. The implementation of this method creates a new EmbeddedSolrServerFactoryBean object, sets the value of the Solr home and returns the created object.
-7. Create a method called solrTemplate() and annotate this method with the @Bean annotation. The implementation of this method creates a new SolrTemplate object and passes the used SolrServer implementation as a constructor argument.
+1. 新建`EmbeddedSolrContext`类，用`@Configuration`注解进行标注
+2. 添加`@EnableSolrRepositories`注解，并配置package
+3. 添加`@Profile`注解，属性值设置为‘dev’，这表明只有开发环境下这个配置类才会有效
+4. 添加`@PropertySource`注解，属性值设置为‘classpath:application.properties’，这样就把这个文件对应的`PropertySource`加到了`Environment`中
+5. 添加一个`Environment`类型的字段，并加上`@Resource`注解 annotation，让Spring注入`Environment`对象
+6. 添加`solrServerFactoryBean()`方法，加上`@Bean`注解，方法实现返回一个`EmbeddedSolrServerFactoryBean`对象，solrHome的值设置为配置文件中的值
+7. 添加`solrTemplate()`方法，加上`@Bean`注解，方法实现返回一个`SolrTemplate`对象，传入上面的`solrServerFactoryBean`作为构造参数
 
 `EmbeddedSolrContext`类代码如下：
 
@@ -191,8 +191,8 @@ public class EmbeddedSolrContext {
 
 通过下面步骤使用配置类来进行配置：
 
-1. Create a class called HttpSolrContext and annotate that class with the @Configuration annotation.
-2. Enable Spring Data Solr repositories by annotating that class with the @EnableSolrRepositories annotation and configuring the root package of our Solr repositories.
+1. 新建`HttpSolrContext`类，加上`@Configuration`注解
+2. 添加`@EnableSolrRepositories`注解，并配置package
 3. Annotate the created class with a @Profile annotation and set its value to ‘prod’. This means that this configuration class is bypassed unless the ‘prod’ profile have been activated.
 4. Annotate the class with the @PropertySource annotation and set its value to ‘classpath:application.properties’. This configures the location of our property file and adds a PropertySource to Spring’s Environment.
 5. Add an Environment field to the class and annotate that field with the @Resource annotation. The injected Environment is used to access the properties which we added to our properties file.
