@@ -68,35 +68,35 @@ This section describes how we can configure Spring Data Solr to use different So
 步骤如下：
 
 1. 新建Properties文件
-2. Configure the embedded Solr server.
-3. Configure the HTTP Solr server.
-4. Set the active bean definition profile.
+2. 配置内嵌Solr server.
+3. 配置HTTP Solr server.
+4. 设置active bean definition profile.
 
 具体步骤如下：
 
 ### 新建Properties文件
 
-新建Properties文件，起名application.properties， and we will use it to configure two properties which are described in the following:
+新建Properties文件，起名application.properties，新建下面两个属性：
 
-* The `solr.server.url` property specifies the url of the used Solr server. The value of this property is used to configure the HTTP Solr server which is used in the production environment.
-* The `solr.solr.home` configures the home directory of Solr. The value of this property is used to configure the home directory of the embedded Solr server which is used in the development environment.
+* `solr.server.url`，配置HTTP Solr server的地址
+* `solr.solr.home`，配置内嵌Solr server的主目录
 
-The content of the application.properties file looks as follows:
+`application.properties`内容如下：
 
 ```
 solr.server.url=http://localhost:8983/solr/
 solr.solr.home=
 ```
 
-### Configuring the Embedded Solr Server
+### 配置内嵌Solr Server
 
-This subsection describes how we can configure Spring Data Solr to use the embedded Solr server in the development environment.
+下面配置Spring Data Solr在开发环境下使用内嵌Solr server
 
 #### Java Configuration
 
-We can create a configuration class which configures the embedded Solr server by following these steps:
+通过如下步骤建立配置类：
 
-1. Create a class called EmbeddedSolrContext and annotate that class with the @Configuration annotation.
+1. 新建EmbeddedSolrContext类，用@Configuration注解进行标注
 2. Enable Spring Data Solr repositories by annotating that class with the @EnableSolrRepositories annotation and  configuring the root package of our Solr repositories.
 3. Annotate the created class with the @Profile annotation and set its value to ‘dev’. This means that this configuration class is bypassed unless the ‘dev’ profile have been activated.
 4. Annotate the class with the @PropertySource annotation and set its value to ‘classpath:application.properties’. This configures the location of our property file and adds a PropertySource to Spring’s Environment.
@@ -104,7 +104,7 @@ We can create a configuration class which configures the embedded Solr server by
 6. Create a method called solrServerFactoryBean() and annotate this method with the @Bean annotation. The implementation of this method creates a new EmbeddedSolrServerFactoryBean object, sets the value of the Solr home and returns the created object.
 7. Create a method called solrTemplate() and annotate this method with the @Bean annotation. The implementation of this method creates a new SolrTemplate object and passes the used SolrServer implementation as a constructor argument.
 
-The source code of the EmbeddedSolrContext class looks as follows:
+`EmbeddedSolrContext`类代码如下：
 
 ```java
 import org.springframework.context.annotation.Bean;
@@ -144,7 +144,7 @@ public class EmbeddedSolrContext {
 
 #### XML Configuration
 
-We can create an XML configuration file for the embedded Solr server by following these steps:
+也可以通过XML来进行配置：
 
 1. Configure the used properties file by using the property-placeholder element of the context namespace.
 2. Enable Solr repositories and configure the base package of our Solr repositories by using the repositories element of the solr namespace.
@@ -152,7 +152,7 @@ We can create an XML configuration file for the embedded Solr server by followin
 4. Configure the embedded Solr server bean by using the embedded-solr-server element of the solr namespace. Set the value of the Solr home.
 5. Configure the Solr template bean. Set the configured embedded Solr server bean as constructor argument.
 
-The contents of the exampleApplicationContext-solr.xml file looks as follows:
+`exampleApplicationContext-solr.xml`内容如下：
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -183,13 +183,13 @@ The contents of the exampleApplicationContext-solr.xml file looks as follows:
 </beans>
 ```
 
-### Configuring the Http Solr Server
+### 配置Http Solr Server
 
-This subsection describes how we can configure Spring Data Solr to use the HTTP Solr server in the production environment.
+下面配置Spring Data Solr在生产环境下使用HTTP Solr server
 
 #### Java Configuration
 
-We can create a configuration class which configures the HTTP Solr server by following these steps:
+通过下面步骤使用配置类来进行配置：
 
 1. Create a class called HttpSolrContext and annotate that class with the @Configuration annotation.
 2. Enable Spring Data Solr repositories by annotating that class with the @EnableSolrRepositories annotation and configuring the root package of our Solr repositories.
@@ -199,7 +199,7 @@ We can create a configuration class which configures the HTTP Solr server by fol
 6. Create a method called solrServerFactoryBean() and annotate this method with the @Bean annotation. The implementation of this method create a new HttpSolrServerFactoryBean object, sets the value of the Solr server url and returns the created object.
 7. Create a method called solrTemplate() and annotate this method with the @Bean annotation. The implementation of this method creates a new SolrTemplate object and passes the used SolrServer implementation as a constructor argument.
 
-The source code of the HttpSolrContext class looks as follows:
+`HttpSolrContext`类代码如下：
 
 ```java
 import org.springframework.context.annotation.Bean;
@@ -239,7 +239,7 @@ public class HttpSolrContext {
 
 #### XML Configuration
 
-We can create an XML configuration file for the HTTP Solr server by following these steps:
+也可使用XML进行配置：
 
 1. Configure the used properties file by using the property-placeholder element of the context namespace.
 2. Enable Solr repositories and configure the base package of our Solr repositories by using the repositories element of the solr namespace.
@@ -247,7 +247,7 @@ We can create an XML configuration file for the HTTP Solr server by following th
 4. Configure the HTTP Solr server bean by using the solr-server element of the solr namespace. Set the url of the Solr server.
 5. Configure the Solr template bean. Set the configured HTTP Solr server bean as a constructor argument.
 
-The content of the exampleApplicationContext-solr.xml file looks as follows:
+`exampleApplicationContext-solr.xml`内容如下：
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -291,7 +291,7 @@ We can configure our example application to support both profiles by following t
 2. Create the profile specific properties files for system properties.
 3. Configure the Jetty Maven plugin.
 
-These steps are described with more details in the following.
+具体步骤如下：
 
 #### Adding the Required Profiles to the POM File
 
@@ -300,7 +300,7 @@ We can add the required profiles to our Maven build by following these steps:
 1. Create a profile for development environment. Set the id of this profile to ‘dev’ and set the value of the build.profile.id property to ‘dev’.
 2. Create a profile for the production environment. Set the id of this profile to ‘prod’ and set the value of the build.profile.id property to ‘prod’.
 
-The configuration of our Maven profiles looks as follows:
+Maven profiles配置如下：
 
 ```xml
 <profiles>
@@ -340,15 +340,15 @@ The content of the properties file used to configure the system properties of th
 spring.profiles.active=prod
 ```
 
-#### Configuring the Jetty Maven Plugin
+#### 配置Jetty Maven Plugin
 
-We can configure the [Jetty Maven plugin](http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin) by following these steps:
+配置[Jetty Maven plugin](http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin)步骤如下：
 
-1. Add the plugin declaration of the Jetty Maven plugin to the plugins section of our Pom file.
-2. Configure the stopKey and stopPort of the Jetty Maven plugin.
-3. Configure the location of the properties file containing the used system properties.
+1. 在pom中添加Jetty Maven plugin的声明
+2. 配置stopKey和stopPort
+3. 配置system properties文件的位置
 
-The configuration of the Jetty Maven plugin looks as follows:
+Jetty Maven plugin配置代码如下：
 
 ```
 <plugin>
@@ -363,17 +363,17 @@ The configuration of the Jetty Maven plugin looks as follows:
  </plugin>
  ```
  
-## Summary
+## 总结
 
-We have now successfully obtained the required dependencies with Maven and configured Spring Data Solr. This blog entry has taught us four things:
+我们介绍了如下几点：
 
-* We learned to get the required dependencies with Maven.
-* We know that we should use the embedded Solr server only in the development environment and learned how we can configure Spring Data Solr to use it.
-* We learned that we should always use the HTTP Solr server in the production environment and know how we can configure Spring Data Solr to use it.
-* We know how we can use the bean definition profiles of Spring Framework for creating different configurations for development and production environment.
+* 配置Maven依赖
+* 下面配置Spring Data Solr在开发环境下使用内嵌Solr server
+* 下面配置Spring Data Solr在生产环境下使用HTTP Solr server
+* 使用Spring Framework提供bean definition profiles来管理不同环境的不同配置
 
 The [next part待修改](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-crud-almost/) of my Spring Data Solr tutorial describes how we can add new document to Solr index, update the information of an existing documents and delete documents from the Solr index.
 
-PS. The example application of this blog entry is available at [Github](https://github.com/pkainulainen/spring-data-solr-examples/tree/master/query-methods).
+PS. 可在[Github](https://github.com/pkainulainen/spring-data-solr-examples/tree/master/query-methods)获取源代码
 
-> If you want to learn how to use Spring Data Solr, you should read my [Spring Data Solr tutorial](http://www.petrikainulainen.net/spring-data-solr-tutorial/).
+> 更多关于Spring Data Solr，请移步[Spring Data Solr tutorial](http://www.petrikainulainen.net/spring-data-solr-tutorial/).
