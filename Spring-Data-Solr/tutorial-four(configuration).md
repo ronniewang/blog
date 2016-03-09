@@ -1,20 +1,13 @@
-In the [previous part](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-introduction-to-solr/) of my Spring Data Solr tutorial, we learned that Solr provides a REST-like HTTP API which can be used to add information to Solr index and execute queries against indexed data. The problem is that running a separate Solr instance in a development environment is a bit cumbersome.
+从[前文](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-introduction-to-solr/)知道Solr提供了REST式的http接口来方便的进行更新和查询索引信息，但是开发环境的配置过于繁琐。
 
-However, not all hope is lost because Solr provides two alternative server implementations which we can use in our applications. These implementations are described in the following:
+为此，solr提供了两种替代方法使我们可以在应用中使用solr。
 
-* The [embedded Solr server](http://wiki.apache.org/solr/Solrj#EmbeddedSolrServer) connects directly to Solr core. We can use this server for development purposes but we must also remember that [using it in production environment is not recommended](http://wiki.apache.org/solr/EmbeddedSolr). However, using the embedded Solr server is still a viable option in the development environment.
-* The [HTTP Solr server](http://wiki.apache.org/solr/Solrj#HttpSolrServer) connects to an external Solr server by using HTTP. This is the recommended way of using the Solr search server and that is why we should always use it in the production environment.
+* [embedded Solr server](http://wiki.apache.org/solr/Solrj#EmbeddedSolrServer)直接连接Solr core，在开发环境是一个很好的选择，[但是不推荐在产品环境下使用](http://wiki.apache.org/solr/EmbeddedSolr)
+* [HTTP Solr server](http://wiki.apache.org/solr/Solrj#HttpSolrServer)通过HTTP连接外部的Solr core，这是使用Solr的推荐方式
 
-This blog entry describes how we can get the required dependencies with Maven. We also learn to configure the Spring Data Solr to use the embedded Solr server in the development environment and the HTTP Solr server in the production environment.
+这篇文章介绍怎样通过Maven配置依赖，还有Spring Data Solr的配置
 
-
-> These blog entries provides additional information which helps us to understand the concepts described in this blog entry:
-* Running Solr with Maven
-* Spring Data Solr Tutorial: Introduction to Solr
-
-Let’s get started.
-
-## Getting the Required Dependencies with Maven
+## 通过Maven配置依赖
 
 We can get the required dependencies with Maven by following these steps:
 
