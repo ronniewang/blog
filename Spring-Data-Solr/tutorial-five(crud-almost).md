@@ -9,11 +9,6 @@ We can make the necessary modifications to our [example application](https://git
 
 These steps are described with more details in the following sections.
 
-> These blog entries provide additional information which helps us to understand the concepts described in this blog entry:
-* [Running Solr with Maven]()
-* [Spring Data Solr Tutorial: Introduction to Solr]()
-* [Spring Data Solr Tutorial: Configuration]()
-
 ## Creating the Document Class
 
 The first step is to create a document class which contains the information added to the Solr index. A document class is basically just a POJO which is implemented by following these rules:
@@ -329,3 +324,14 @@ The next part of my Spring Data Solr tutorial describes how we can [search infor
 P.S. The example application of this blog entry is available at [Github](https://github.com/pkainulainen/spring-data-solr-examples/tree/master/query-methods).
 
 If you want to learn how to use Spring Data Solr, you should read my [Spring Data Solr tutorial](http://www.petrikainulainen.net/spring-data-solr-tutorial/).
+
+* [Running Solr with Maven](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-two(running-solr-with-maven).md) 
+* [Spring Data Solr Tutorial: Introduction to Solr](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-three(introduction-to-solr).md) 
+* [Spring Data Solr Tutorial: Configuration](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-four(configuration).md) 
+* [Spring Data Solr Tutorial: CRUD (Almost)](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-five(crud-almost).md) 
+* [Spring Data Solr Tutorial: Query Methods](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-six(query-methods).md) 
+* [Spring Data Solr Tutorial: Adding Custom Methods to a Single Repository](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-seven(adding-custom-methods-to-a-single-repository).md) 
+* [Spring Data Solr Tutorial: Dynamic Queries](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-eight(dynamic).md) 
+* [Spring Data Solr Tutorial: Sorting](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-nine(sorting).md) 
+* [Spring Data Solr Tutorial: Pagination](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-ten(pagination).md) 
+* [Spring Data Solr Tutorial: Adding Custom Methods to All Repositories](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-eleven(adding-custom-methods-to-all-repositories).md) 
