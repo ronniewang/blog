@@ -23,14 +23,14 @@ Let’s move on and find out what you can learn from this tutorial. This tutoria
 
 * [Spring Data Solr Tutorial: Query Methods](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-six(query-methods).md) describes how you search documents from the Solr index by using query methods.
 
-* [Spring Data Solr Tutorial: Adding Custom Methods to a Single Repository](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-adding-custom-methods-to-a-single-repository/) describes how you can add custom methods to a single repository.
+* [Spring Data Solr Tutorial: Adding Custom Methods to a Single Repository](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-seven(adding-custom-methods-to-a-single-repository).md) describes how you can add custom methods to a single repository.
 
-* [Spring Data Solr Tutorial: Dynamic Queries](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-dynamic-queries/) describes how you can create dynamic queries by using the criteria implementation of Spring Data Solr.
+* [Spring Data Solr Tutorial: Dynamic Queries](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-eight(dynamic).md) describes how you can create dynamic queries by using the criteria implementation of Spring Data Solr.
 
-* [Spring Data Solr Tutorial: Sorting](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-sorting/) describes how you can sort your query results.
+* [Spring Data Solr Tutorial: Sorting](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-nine(sorting).md) describes how you can sort your query results.
 
-* [Spring Data Solr Tutorial: Pagination](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-pagination/) describes how you can paginate the query results of query methods and dynamic queries with Spring Data Solr.
+* [Spring Data Solr Tutorial: Pagination](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-ten(pagination).md) describes how you can paginate the query results of query methods and dynamic queries with Spring Data Solr.
 
-* [Spring Data Solr Tutorial: Adding Custom Methods to All Repositories](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-adding-custom-methods-to-all-repositories/) describes how you can add custom methods to all repositories.
+* [Spring Data Solr Tutorial: Adding Custom Methods to All Repositories](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-eleven(adding-custom-methods-to-all-repositories).md) describes how you can add custom methods to all repositories.
 
 Congratulations. You are now ready to start using Spring Data Solr in your own applications. I hope that I was able to convince you that implementing search functions with Spring Data Solr is easy and fun.
