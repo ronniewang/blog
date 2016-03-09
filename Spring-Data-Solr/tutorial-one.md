@@ -13,15 +13,15 @@ This ten-part tutorial will help you get started with Spring Data Solr. This tut
 
 Let’s move on and find out what you can learn from this tutorial. This tutorial contains the following blog posts:
 
-* [Running Solr with Maven](http://www.petrikainulainen.net/programming/maven/running-solr-with-maven/) describes how we can run Solr by using Maven and ensure that each developer uses the same configuration, schema and Solr version.
+* [Running Solr with Maven](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-two(running-solr-with-maven).md) describes how we can run Solr by using Maven and ensure that each developer uses the same configuration, schema and Solr version.
 
-* [Spring Data Solr Tutorial: Introduction to Solr](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-introduction-to-solr/) gives a brief introduction to Solr data model, describes how you can create a schema to your Solr instance and describes the usage of Solr’s HTTP API.
+* [Spring Data Solr Tutorial: Introduction to Solr](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-three(introduction-to-solr).md) gives a brief introduction to Solr data model, describes how you can create a schema to your Solr instance and describes the usage of Solr’s HTTP API.
 
-* [Spring Data Solr Tutorial: Configuration](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-configuration/) describes how you can get the required dependencies by using Maven and configure Spring Data Solr.
+* [Spring Data Solr Tutorial: Configuration](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-four(configuration).md) describes how you can get the required dependencies by using Maven and configure Spring Data Solr.
 
-* [Spring Data Solr Tutorial: CRUD (Almost)](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-crud-almost/) describes how you can add new to documents to the Solr index, update the information of existing documents and delete documents from the Solr index.
+* [Spring Data Solr Tutorial: CRUD (Almost)](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-five(crud-almost).md) describes how you can add new to documents to the Solr index, update the information of existing documents and delete documents from the Solr index.
 
-* [Spring Data Solr Tutorial: Query Methods](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-query-methods/) describes how you search documents from the Solr index by using query methods.
+* [Spring Data Solr Tutorial: Query Methods](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-six(query-methods).md) describes how you search documents from the Solr index by using query methods.
 
 * [Spring Data Solr Tutorial: Adding Custom Methods to a Single Repository](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-adding-custom-methods-to-a-single-repository/) describes how you can add custom methods to a single repository.
 
