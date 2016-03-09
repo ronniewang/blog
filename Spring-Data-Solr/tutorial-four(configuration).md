@@ -9,16 +9,16 @@
 
 ## 通过Maven配置依赖
 
-We can get the required dependencies with Maven by following these steps:
+步骤如下：
 
-1. Add the Spring Milestone Maven repository to the POM file.
-2. Add the required dependencies to the pom.xml file.
+1. 添加Spring Milestone Maven repository到POM文件
+2. 添加依赖到pom.xml文件
 
-Both of these steps are described with more details in the following.
+具体步骤如下：
 
-### Adding the Spring Milestone Maven Repository to the POM File
+### 添加Spring Milestone Maven repository到POM文件
 
-We can add the Spring milestone Maven repository to our POM file by adding the following XML to the `pom.xml` file:
+添加如下xml片段到`pom.xml`文件：
 
 ```xml
 <repositories>
@@ -30,9 +30,9 @@ We can add the Spring milestone Maven repository to our POM file by adding the f
 </repositories>
 ```
 
-### Adding the Required Dependencies to the POM File
+### 添加依赖到pom.xml文件
 
-We can add the required dependencies to the POM file by following these steps:
+步骤如下：
 
 1. Add the Spring Data Solr dependency (version 1.0.0.RC1) to the dependencies section of our POM file.
 2. Add the Solr core dependency (version 4.1.0) to the dependencies section of our POM file and exclude the SLF4J JDK14 binding. Because Solr core is required by the embedded Solr server, we can skip this step if we are not using the embedded Solr server.
