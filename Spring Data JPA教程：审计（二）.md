@@ -1,4 +1,4 @@
-书接上文<https://github.com/ronniewang/blog/blob/master/Spring%20Data%20JPA%E6%95%99%E7%A8%8B%EF%BC%9A%E5%AE%A1%E8%AE%A1%EF%BC%88%E4%B8%80%EF%BC%89.md>
+书接[上文](https://github.com/ronniewang/blog/blob/master/Spring%20Data%20JPA%E6%95%99%E7%A8%8B%EF%BC%9A%E5%AE%A1%E8%AE%A1%EF%BC%88%E4%B8%80%EF%BC%89.md)
 
 本文解决前面两个问题中的第二个问题，我们将为实体加上创建者和修改者的信息
 
