@@ -1,19 +1,19 @@
-书接上文<https://github.com/ronniewang/blog/issues/6>
+书接上文<https://github.com/ronniewang/blog/blob/master/Spring%20Data%20JPA%E6%95%99%E7%A8%8B%EF%BC%9A%E5%AE%A1%E8%AE%A1%EF%BC%88%E4%B8%80%EF%BC%89.md>
 
-本文解决第二个问题，我们将为实体加上创建者和修改者的信息。
+本文解决前面两个问题中的第二个问题，我们将为实体加上创建者和修改者的信息
 
-首先创建一个返回授权用户信息的组件。
+首先创建一个返回授权用户信息的组件
 
 ### 获取授权用户信息 
 
-Spring Data JPA使用`AuditorAware<T>`接口获取用户信息，`AuditorAware`接口的泛型参数T描述了实体类中审计人的类型。
+Spring Data JPA使用`AuditorAware<T>`接口获取用户信息，`AuditorAware`接口的泛型参数T描述了实体类中审计人的类型
 
 现在开始创建一个返回用户信息的类：
 
-1. 创建`UsernameAuditorAware`类实现`AuditorAware`接口。我们想存储`String`类型的用户名，所以参数T设置为`String`
+1. 创建`UsernameAuditorAware`类实现`AuditorAware`接口，我们想存储`String`类型的用户名，所以参数T设置为`String`
 2. 实现`getCurrentAuditor()`方法：
 	1. 从`SecurityContext`获取`Authentication`对象
-	2. 如果返回`null`或者未经认证，返回`null`
+	2. 如果得到的授权对象为`null`或者未经认证，返回`null`
 	3. 返回username
 
 `UsernameAuditorAware`类源码如下：
@@ -86,10 +86,10 @@ class PersistenceContext {
 
 ### 修改实体类
 
-做两点改变：
+有如下两个需求：
 
-1. 需要确保`createdByUser`字段在实体第一次存储时被设置
-2. 需要确保`modifiedByUser`字段在实体以一次存储和以后被修改时被设置
+1. 确保`createdByUser`字段在实体第一次存储时被设置
+2. 确保`modifiedByUser`字段在实体以一次存储和以后被修改时被设置
 
 具体步骤如下：
 
@@ -101,7 +101,7 @@ class PersistenceContext {
 	1. 加上`@Column`注解，配置字段名为modified_by_user，非空
 	2. 加上`@LastModified`注解，说明这个字段表示的是谁最近修改了这个实体
 
-修改后的`Todo`类如下：
+修改后的`Todo`实体类如下：
 
 ```java
 import org.hibernate.annotations.Type;
@@ -193,9 +193,9 @@ public abstract class BaseEntity {
 }
 ```
 
-如果不想使用注解，可以实现`Auditable`接口或者继承`AbstractAuditable`类。`Auditable`接口声明了所有的审计字段的getter和setter方法，`AbstractAuditable`类提供了这些方法的实现，但有个劣势是你的实体类和Spring Data就产生了耦合。
+如果不想使用注解，可以实现`Auditable`接口或者继承`AbstractAuditable`类。`Auditable`接口声明了所有的审计字段的getter和setter方法，`AbstractAuditable`类提供了这些方法的实现，但有个劣势是你的实体类和Spring Data就产生了耦合
 
-让我们看看为什么使用Spring Data JPA提供的审计支持而不是使用Java Persistence API提供的回调方法。
+让我们看看为什么使用Spring Data JPA提供的审计支持而不是使用Java Persistence API提供的回调方法
 
 ### 为什么使用Spring Data JPA提供的审计支持？
 
@@ -264,4 +264,4 @@ public abstract class BaseEntity {
 
 项目代码在作者的github上：<https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/query-methods>
 
-原文连接：<http://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-auditing-part-one>
+原文连接：<http://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-auditing-part-two>
