@@ -1,6 +1,6 @@
 [前文](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-four(configuration).md)配置了Spring Data Solr，下面看一下怎样管理存储在Solr实例中的信息，本篇将会介绍索引文档的增加，修改，删除等
 
-在[例子](https://github.com/pkainulainen/spring-data-solr-examples/tree/master/query-methods)上面进行如下修改：
+在[Github的例子](https://github.com/pkainulainen/spring-data-solr-examples/tree/master/query-methods)上面进行如下修改：
 
 1. 新建document类
 2. 新建repository接口
