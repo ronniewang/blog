@@ -29,11 +29,11 @@ Document类是符合下面约束的POJO类：
 
 通过下面步骤新建todo类：
 
-1. Create a class called TodoDocument.
-2. Add the id field to the TodoDocument class and annotate the field with the @Field annotation. Annotate the field with the @Id annotation (This is not required since the name of the id field is ‘id’ but I wanted to demonstrate its usage here).
-3. Add the description field to the TodoDocument class and annotate this field with the @Field annotation.
-4. Add the title field to the TodoDocument and annotate this field with the @Field annotation.
-5. Create getter methods to the fields of the TodoDocument class.
+1. 新建`TodoDocument`类
+2. 添加`id`字段，加上`@Field`和`@Id`注解(如果字段名也是id，`@Id`并不是必须的).
+3. 添加`description`字段，加上`@Field`注解
+4. 添加`title`字段，加上`@Field`注解
+5. 添加getter方法
 6. Create a static inner class which is used to build new TodoDocument objects.
 7. Add a static getBuilder() method to the TodoDocument class. The implementation of this method returns a new TodoDocument.Builder object.
 
@@ -97,8 +97,8 @@ SolrCrudRepository<T, ID>有两个类型参数：
 
 通过下面步骤新建repository：
 
-1. Create an interface called TodoDocumentRepository.
-2. Extend the SolrCrudRepository interface and give the type of our document class and its id as type parameters.
+1. 新建`TodoDocumentRepository`接口
+2. 继承`SolrCrudRepository`接口，为类型参数赋值
 
 `TodoDocumentRepository`代码如下：
 
@@ -142,20 +142,20 @@ public interface TodoIndexService {
 
 步骤如下：
 
-1. Create a skeleton implementation of our service class.
-2. Implement the method used to add documents to the Solr index.
-3. Implement the method used to delete documents from the Solr index.
+1. 建立service骨架代码
+2. 实现`void addToIndex(Todo todoEntry)`方法
+3. 实现`void deleteFromIndex(Long id)`方法
 
-These steps are described with more details in the following.
+具体步骤如下：
 
-#### Creating a Skeleton Implementation of the Service Class
+#### 建立service骨架代码
 
-We can create a skeleton implementation of our service interface by following these steps:
+步骤如下：
 
-1. Create a class called RepositoryTodoIndexService and annotate this class with the @Service annotation. This annotation marks this class as a service and ensures that the class will be detected during the classpath scanning.
-2. Add a TodoDocumentRepository field to the RepositoryTodoIndexService class and annotate that field with the @Resource annotation. This annotation instructs the Spring IoC container to inject the actual repository implementation the service’s repository field.
+1. 新建`RepositoryTodoIndexService`类，加上`@Service`注解
+2. 添加`TodoDocumentRepository`注解，加上`@Resource`注解
 
-The source code of our dummy service implementation looks as follows:
+目前代码如下：
 
 ```java
 import org.springframework.stereotype.Service;
@@ -173,15 +173,15 @@ public class RepositoryTodoIndexService implements TodoIndexService {
 }
 ```
 
-#### Adding Documents to the Solr Index
+#### 实现`void addToIndex(Todo todoEntry)`方法
 
-We can create the method which adds new documents to the Solr index by following these steps:
+步骤如下：
 
 1. Add the addToIndex() method to the RepositoryTodoIndexService class and annotate this method with the @Transactional annotation. This ensures that our [Spring Data Solr repository will participate in Spring managed transactions](http://static.springsource.org/spring-data/data-solr/docs/1.0.0.RC1/reference/htmlsingle/#solr.transactions).
 2. Create a new TodoDocument object by using the builder pattern. Set the id, title and description of the created document.
 3. Add the document to the Solr index by calling the save() method of the TodoDocumentRepository interface.
 
-The source code of the created method looks as follows:
+方法代码如下：
 
 ```java
 import org.springframework.stereotype.Service;
@@ -209,14 +209,14 @@ public class RepositoryTodoIndexService implements TodoIndexService {
 }
 ```
 
-#### Deleting Documents from the Solr Index
+#### 实现`void deleteFromIndex(Long id)`方法
 
-We can create a method which deletes documents from the Solr index by following these steps:
+步骤如下：
 
 1. Add the deleteFromIndex() method to the RepositoryTodoDocumentService class and annotate this method with the @Transactional annotation. This ensures that our [Spring Data Solr repository will participate in Spring managed transactions](http://static.springsource.org/spring-data/data-solr/docs/1.0.0.RC1/reference/htmlsingle/#solr.transactions).
 2. Delete document from the Solr index by calling the delete() method of the TodoDocumentRepository interface.
 
-The source code of the created method looks as follows:
+方法代码如下：
 
 ```java
 import org.springframework.stereotype.Service;
@@ -249,7 +249,7 @@ Our last step is to use the service which we created earlier. We can do this by 
 3. Call the deleteFromIndex() method of the TodoIndexService interface in the deleteById() method of the RepositoryTodoService class.
 4. Call the addToIndex() method of the TodoIndexService interface in the update() method of the RepositoryTodoService class.
 
-The source code of the RepositoryTodoService looks as follows:
+`RepositoryTodoService`代码如下：
 
 ```java
 import org.springframework.security.access.prepost.PreAuthorize;
