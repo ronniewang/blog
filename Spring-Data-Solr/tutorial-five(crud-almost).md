@@ -1,33 +1,33 @@
-In the [previous part](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-configuration/) of my Spring Data Solr tutorial, we learned how we can configure Spring Data Solr. Now it is time to take a step forward and learn how we can manage the information stored in our Solr instance. This blog entry describes how we add new documents to the Solr index, update the information of existing documents and delete documents from the index.
+[前文](https://github.com/ronniewang/blog/blob/master/Spring-Data-Solr/tutorial-four(configuration).md)配置了Spring Data Solr，下面看一下怎样管理存储在Solr实例中的信息，本篇将会介绍索引文档的增加，修改，删除等
 
-We can make the necessary modifications to our [example application](https://github.com/pkainulainen/spring-data-solr-examples/tree/master/query-methods) by following these steps:
+在[例子](https://github.com/pkainulainen/spring-data-solr-examples/tree/master/query-methods)上面进行如下修改：
 
-1. Create a document class which contains the information stored in the Solr index.
-2. Create a repository interface for our Spring Data Solr repository.
-3. Create a service which uses the created repository.
-4. Use the created service.
+1. 新建document类
+2. 新建repository接口
+3. 新建一个使用repository的service
+4. 使用service
 
-These steps are described with more details in the following sections.
+具体步骤请往下看
 
-## Creating the Document Class
+## 新建Document类
 
-The first step is to create a document class which contains the information added to the Solr index. A document class is basically just a POJO which is implemented by following these rules:
+Document类是符合下面约束的POJO类：
 
 * The @Field annotation is used to create a link between the fields of the POJO and the fields of the Solr document.
 * If the name of the bean’s field is not equal to the name of the document’s field, the name of the document’s field must be given as a value of the @Field annotation.
-* The @Field annotation can be applied either to a field or setter method.
+* `@Field`可以用在setter方法或者字段上
 * Spring Data Solr assumes by default that the name of the document’s id field is ‘id’. We can override this setting by annotating the id field with the @Id annotation.
-* Spring Data Solr (version 1.0.0.RC1) requires that the type of the document’s id is String.
+* Spring Data Solr (version 1.0.0.RC1)要求文档id是`String`类型的
 
-_More information:_
+*更多信息*
 
 * [Solrj @ Solr Wiki](http://wiki.apache.org/solr/Solrj#Directly_adding_POJOs_to_Solr)
 
-Let’s move on and create our document class.
+下面看看如何创建document类吧
 
-In the [first part](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-introduction-to-solr/) of my Spring Data Solr tutorial, we learned that we have to store the id, description and title of each todo entry to the Solr index.
+[Solr简介](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-introduction-to-solr/)一文中我们知道，我们需要在todo中存储id, description和title信息
 
-Thus, we can create a document class for todo entries by following these steps:
+通过下面步骤新建todo类：
 
 1. Create a class called TodoDocument.
 2. Add the id field to the TodoDocument class and annotate the field with the @Field annotation. Annotate the field with the @Id annotation (This is not required since the name of the id field is ‘id’ but I wanted to demonstrate its usage here).
@@ -37,7 +37,7 @@ Thus, we can create a document class for todo entries by following these steps:
 6. Create a static inner class which is used to build new TodoDocument objects.
 7. Add a static getBuilder() method to the TodoDocument class. The implementation of this method returns a new TodoDocument.Builder object.
 
-The source code of the TodoDocument class looks as follows:
+`TodoDocument`代码如下：
 
 ```java
 import org.apache.solr.client.solrj.beans.Field;
@@ -86,21 +86,21 @@ public class TodoDocument {
 }
 ```
 
-## Creating the Repository Interface
+## 新建Repository接口
 
-The base interface of Spring Data Solr repositories is the SolrCrudRepository<T, ID> interface and each repository interface must extend this interface.
+Spring Data Solr的基础接口是SolrCrudRepository<T, ID>，每个repository都要继承它
 
-When we extend the SolrCrudRepository<T, ID> interface, we must give two type parameters which are described in the following:
+SolrCrudRepository<T, ID>有两个类型参数：
 
-* The T type parameter means the type of our document class.
-* The ID type parameter means the type of the document’s id. Spring Data Solr (version 1.0.0.RC1) requires that the id of a document is String.
+* T表示document类
+* ID表示document的id的类型，Spring Data Solr (version 1.0.0.RC1)要求为String
 
-We can create the repository interface by following these steps:
+通过下面步骤新建repository：
 
 1. Create an interface called TodoDocumentRepository.
 2. Extend the SolrCrudRepository interface and give the type of our document class and its id as type parameters.
 
-The source code of the TodoDocumentRepository interface looks as follows:
+`TodoDocumentRepository`代码如下：
 
 ```java
 import org.springframework.data.solr.repository.SolrCrudRepository;
@@ -109,25 +109,25 @@ import org.springframework.data.solr.repository.SolrCrudRepository;
 }
 ```
 
-## Creating the Service
+## 新建Service
 
-Our next step is to create the service which uses the created Solr repository. We can create this service by following these steps:
+下面新建一个使用repository的service：
 
-1. Create a service interface.
-2. Implement the created interface.
+1. 新建service接口
+2. 实现这个接口
 
-These steps are described with more details in the following.
+具体步骤如下
 
-### Creating the Service Interface
+### 新建service接口
 
-Our service interface declares two methods which are described in the following:
+我们接口有如下两个方法：
 
-* The void addToIndex(Todo todoEntry) method adds a todo entry to the index.
-* The void deleteFromIndex(Long id) method deletes a todo entry from the index.
+* `void addToIndex(Todo todoEntry)`方法向索引中增加一个todo
+* `void deleteFromIndex(Long id)`方法从索引中删除一个todo
  
 > Note: We can use the addToIndex() method for adding new todo entries to the Solr index and updating the information of existing todo entries. If an existing document has the same id than the new one, the old document is deleted and the information of the new document is saved to the Solr index (See [SchemaXML @ Solr Wiki](http://wiki.apache.org/solr/SchemaXml#The_Unique_Key_Field) for more details).
 
-The source code of the TodoIndexService interface looks as follows:
+`TodoIndexService`代码如下：
 
 ```java
 public interface TodoIndexService {
@@ -138,9 +138,9 @@ public interface TodoIndexService {
 }
 ```
 
-### Implementing the Created Interface
+### 实现接口
 
-We cam implement the service interface by following these steps:
+步骤如下：
 
 1. Create a skeleton implementation of our service class.
 2. Implement the method used to add documents to the Solr index.
@@ -308,9 +308,9 @@ public class RepositoryTodoService implements TodoService {
 }
 ```
 
-## Summary
+## 总结
 
-We have successfully created an application which adds documents to the Solr index and deletes documents from it. This blog entry has taught us the following things:
+本篇我们知道了如下事情：
 
 * We learned how we can create document classes.
 * We learned that we can create Spring Data Solr repositories by extending the SolrCrudRepository interface.
