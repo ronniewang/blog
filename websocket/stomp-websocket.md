@@ -51,7 +51,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
 	<websocket:message-broker application-destination-prefix="/SBC">
-		<websocket:stomp-endpoint path="/pushLogs">
+		<websocket:stomp-endpoint path="/pushLogs.do">
 			<!--<websocket:sockjs/>-->
 		</websocket:stomp-endpoint>
 		<websocket:simple-broker prefix="/topic"/>
@@ -59,6 +59,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 </beans>
 ```
+> 注意一下，`<websocket:stomp-endpoint path="/pushLogs.do">`这里.do是因为Spring mvc的配置文件支对*.do的请求进行了处理，下面有个蛋疼的问题，下面在解释
+
 ## 解释一下配置
  
 以Configuration Class为例，xml请自行参照
@@ -118,7 +120,7 @@ public class PushLogsController {
         }
 
         function connect() {
-            var socket = new WebSocket('ws:localhost:8080/SBC/pushLogs');
+            var socket = new WebSocket('ws:localhost:8080/SBC/pushLogs.do');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
                 setConnected(true);
@@ -169,6 +171,11 @@ public class PushLogsController {
 </body>
 </html>
 ```
+
+> 再注意一下，`var socket = new WebSocket('ws:localhost:8080/SBC/pushLogs.do');`这句话请求是带.do的，而这句`stompClient.send("/SBC/pushLogs", {}, JSON.stringify({'message': name}));`发送消息是不带.do的
+
+这两个注意是为什么呢，因为在WebSocket建立时，是通过Http请求Upgrade过来的，最开始需要带.do才能被处理，而建立连接之后，跟Http就没有关系了，所以不需要.do了，如果带.do，反而处理不了了
+
 需要引入stomp.js文件，去网上搜一下就有了
 
 ## 运行效果
