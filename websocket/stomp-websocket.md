@@ -175,6 +175,6 @@ public class PushLogsController {
 
 访问test页面，点击connect，在输入框中随意输入一些，点击Send，会收到服务器返回的数据，效果图如下
 
-![websocket-test](http://192.168.1.3/attachments/download/456/websocket.png)
+![websocket-test](https://github.com/ronniewang/blog/blob/master/image/stomp-websocket.png)
 
 打开Chrome的Console也可以看到输出的日志
