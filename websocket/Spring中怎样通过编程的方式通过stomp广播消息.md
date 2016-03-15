@@ -1,4 +1,4 @@
-# Spring中怎样通过编程的方式通过stomp广播消息
+## Spring中怎样通过编程的方式通过stomp广播消息
 
 Spring提供了一个`SimpMessagingTemplate`类，用它即可实现
 
