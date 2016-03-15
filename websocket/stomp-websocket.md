@@ -51,7 +51,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
 	<websocket:message-broker application-destination-prefix="/SBC">
-		<websocket:stomp-endpoint path="/pushLogs.do">
+		<websocket:stomp-endpoint path="/pushLogs">
 			<!--<websocket:sockjs/>-->
 		</websocket:stomp-endpoint>
 		<websocket:simple-broker prefix="/topic"/>
@@ -118,7 +118,7 @@ public class PushLogsController {
         }
 
         function connect() {
-            var socket = new WebSocket('ws:localhost:8080/SBC/pushLogs.do');
+            var socket = new WebSocket('ws:localhost:8080/SBC/pushLogs');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
                 setConnected(true);
