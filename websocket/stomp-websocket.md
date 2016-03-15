@@ -185,3 +185,6 @@ public class PushLogsController {
 ![websocket-test](https://github.com/ronniewang/blog/blob/master/image/stomp-websocket.png)
 
 打开Chrome的Console也可以看到输出的日志
+
+
+参看：<https://spring.io/guides/gs/messaging-stomp-websocket/>
