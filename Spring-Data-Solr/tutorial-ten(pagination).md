@@ -1,101 +1,101 @@
 
-In the earlier parts of my Spring Data Solr tutorial, we have implemented a simple search function which is used to search the information of todo entries. The current implementation of our search function shows all search results in a single page. This is not a viable solution for most real life applications because the number of search results can be so large that search function is no longer usable.
+In the earlier parts of my [Spring Data Solr tutorial](http://www.petrikainulainen.net/spring-data-solr-tutorial/), we have implemented a simple search function which is used to search the information of todo entries. The current implementation of our search function shows all search results in a single page. This is not a viable solution for most real life applications because the number of search results can be so large that search function is no longer usable.
 
 This blog post provides us the solution to that problem by describing how we can paginate the query results or our search function with Spring Data Solr.
 
 This blog post is divided into five sections:
 
-The first section describes how we can request the correct page manually and talks about the different return types of query methods.
-The second section describes how we can obtain the search result count by adding a custom method to our repository.
-The third section describes how we can paginate the search results of query methods.
-The fourth section teaches us to paginate the search results of dynamic queries.
-The fifth and last section describes how we can configure and use a technique called web pagination.
-These blog posts provides additional information which helps us to understand the concepts of described in this blog post:
-Running Solr with Maven
-Spring Data Solr Tutorial: Introduction to Solr
-Spring Data Solr Tutorial: Configuration
-Spring Data Solr Tutorial: Query Methods
-Spring Data Solr Tutorial: Adding Custom Methods to a Single Repository
-Spring Data Solr Tutorial: Dynamic Queries
-Spring Data Solr Tutorial: Sorting
+* The first section describes how we can request the correct page manually and talks about the different return types of query methods.
+* The second section describes how we can obtain the search result count by adding a custom method to our repository.
+* The third section describes how we can paginate the search results of query methods.
+* The fourth section teaches us to paginate the search results of dynamic queries.
+* The fifth and last section describes how we can configure and use a technique called web pagination.
+
 Let’s get started.
 
-Few Minutes of Theory
+## Few Minutes of Theory
 
 Before we will start making modifications to our example application, we will take a short look at the theory behind pagination. This section is divided in two subsections which are described in the following:
 
-The first section describes how we can specify the pagination options of our query.
-The second section describes the different return types of a query method.
+* The first section describes how we can specify the pagination options of our query.
+* The second section describes the different return types of a query method.
+
 Let’s move on.
 
-Specifying the Wanted Page
+### Specifying the Wanted Page
+
 The used pagination options are specified by using the PageRequest class which implements the Pageable interface.
 
 The typical pagination requirements are given in the following:
 
-Get the query results belonging to a single page.
-Get the query results belonging to a single page when the query results are sorted by using the value of a single field.
-Get the query results belonging to a single page when the query results are sorted by using the values of multiple fields and the sort order of different fields is the same.
-Get the query results belonging to a single page when the query results are sorted by using the values of multiple fields and the sort order of different fields is not the same.
+* Get the query results belonging to a single page.
+* Get the query results belonging to a single page when the query results are sorted by using the value of a single field.
+* Get the query results belonging to a single page when the query results are sorted by using the values of multiple fields and the sort order of different fields is the same.
+* Get the query results belonging to a single page when the query results are sorted by using the values of multiple fields and the sort order of different fields is not the same.
+
 Let’s find out how we can create the PageRequest objects which fulfill the given requirements.
 
 First, we must create a PageRequest object which specifies that we want to get the query results belonging to a single page. We can create the PageRequest object by using the following code:
 
-1
-2
+```java
 //Get the query results belonging to the first page when page size is 10.
 new PageRequest(0, 10)
+```
+
 Second, we must create a PageRequest object which specifies that we want to get the results belonging to a single page when query results are sorted by using the value of a single field. We can create the PageRequest object by using the following code:
 
-1
-2
-3
+```java
 //Gets the query results belonging to the first page when page size is 10.
 //Query results are sorted in descending order by using id field.
 new PageRequest(0, 10 Sort.Direction.DESC, "id")
+```
+
 Third, we must create a PageRequest object which specifies that we want to get the results belonging to a single page when the query results are sorted by using multiple fields and the sort order of different fields is same. We can create the PageRequest object by using the following code:
 
-1
-2
-3
+```java
 //Gets the query results belonging to the first page when page size is 10.
 //Query results are sorted in descending order by using id and description fields.
 new PageRequest(0, 10 Sort.Direction.DESC, "id", "description")
+```
+
 Fourth, we must create a PageRequest object which specifies that want to get the query results belonging to a single page when the query results are sorted by using multiple fields and the sort order of different fields is not same. We can create this object by using the following code:
 
-1
-2
-3
-4
-5
+```java
 //Gets the query results belonging to the first page when page size is 10.
 //Query results are sorted in descending order order by using the description field
 //and in ascending order by using the id field.
 Sort sort = new Sort(Sort.Direction.DESC, "description").and(new Sort(Sort.Direction.ASC, "id"))
 new PageRequest(0, 10, sort);
+```
+
 We now know how we can create new PageRequest objects. Let’s move on and talk about the different return types of query methods.
 
-Deciding the Return Type of a Query Method
+### Deciding the Return Type of a Query Method
+
 When a query method uses pagination, it can have two return types. These return types are described in the following (We will assume that the name of our model class is TodoDocument):
 
-When we are interested about the pagination metadata, the return type of our query method must be Page<TodoDocument> (Get more information about the Page interface which declares the methods used to obtain the pagination metadata).
-When we are not interested about the pagination metadata, the return type of our query method should be List<TodoDocument>.
-Getting the Search Result Count
+* When we are interested about the pagination metadata, the return type of our query method must be Page<TodoDocument> (Get more information about the Page interface which declares the methods used to obtain the pagination metadata).
+* When we are not interested about the pagination metadata, the return type of our query method should be List<TodoDocument>.
+
+## Getting the Search Result Count
 
 Before we can start paginating the search results of our queries, we have to implement a function which is used to get the number of todo entries which matches with given search criteria. This number is required so that we can implement the pagination logic to the frontend.
 
 We can implement this function by following these steps:
 
-Add a custom method to our repository. This method is used to return the search result count.
-Create a new service method which uses our custom repository method.
+1. Add a custom method to our repository. This method is used to return the search result count.
+2. Create a new service method which uses our custom repository method.
+
 These steps are described with more details in the following subsections.
 
-Adding a Custom Method to Our Repository
-At the moment it is not possible to create a count query without adding a custom method to a repository. We can do this by following these steps:
+### Adding a Custom Method to Our Repository
 
-Create a custom repository interface.
-Implement the custom repository interface.
-Modify the actual repository interface.
+At the moment it is not possible to create a count query without [adding a custom method to a repository](http://www.petrikainulainen.net/programming/solr/spring-data-solr-tutorial-adding-custom-methods-to-a-single-repository/). We can do this by following these steps:
+
+1. Create a custom repository interface.
+2. Implement the custom repository interface.
+3. Modify the actual repository interface.
+
 Let’s move on and find out how this is done.
 
 Creating a Custom Repository Interface
