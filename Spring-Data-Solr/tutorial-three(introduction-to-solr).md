@@ -1,18 +1,10 @@
-Most of the applications must have a some kind of a search function. The problem is that search functions are often huge resource hogs and they can kill the performance of our application by causing heavy load to the database. That is why transferring that load to an external search server is a great idea.
+本篇大概介绍一下Solr，分为如下三个部分：
 
-This is the first part of my Spring Data Solr tutorial. During this tutorial we will implement a search function to a todo application which is the example application of my [Spring MVC Test tutorial](http://www.petrikainulainen.net/spring-mvc-test-tutorial/).
+1. 第一部分对Solr和它的数据模型有个大概的了解
+2. 第二部分为我们的Solr instance创建一个Schema
+3. 第三部分介绍通过介绍Solr提供的REST-like HTTP API
 
-The requirements of our search function are simple. It must return a list of todo entries which title or description contains the used search term. The search result page must also provide a link to the page used to view the information of a todo entry.
-
-Before we can start the implementation of our search function, we need to take a look at the Solr search server. This blog entry provides us the basic information about Solr and it is divided into three parts:
-
-1. The first part gives us a brief introduction to Solr and its data model.
-2. The second part describes how we can create a schema for our Solr instance.
-3. The last part describes how we can use the REST-like HTTP API provided by Solr.
-
-Let’s get started.
-
-## A Brief Introduction to Solr
+## Solr概述
 
 Let’s start by getting a brief introduction to the Solr search server. This introduction is very thin and it provides only the information we need to know in order to understand the implementation of our search function.
 
@@ -20,42 +12,42 @@ Also, even though [Solr](http://lucene.apache.org/solr/) is heavily dependent fr
 
 This section describes
 
-* The data model of Solr search server.
-* What happens when new documents are added to Solr.
-* What happens when a search query is executed against the indexed data.
+* Solr的Data Model
+* 新文档加入Solr时发生了什么
+* 在索引上索引执行查询时发生了什么
 
 ### The Data Model
 
-An index consists of documents which are essentially a collection of fields. If we compare this data model to the data model of a relational database, we notice the following similarities:
+一个索引An index consists of documents which are essentially a collection of fields. 如果我们拿Solr的data model和关系数据库进行对比的化，会发现如下的相似性：
 
-* An index is roughly the same than a database table.
-* A document is similar than a row of a database table.
-* A field means the same than a column of a database table.
+* 一个索引类似与一个数据库表
+* 一个文档类似于数据库表的一行
+* 一个field类似于一个数据库表的一列
 
 Each field of a document can be either indexed, stored or both. The meaning of these terms is described in the following:
 
-* An indexed field is a field which is searchable and sortable. Indexed fields are not returned in the search results.
-* A stored field is field which value returned in the search results.
-* If a field is both indexed and stored, the field is both searchable and sortable. Its value is also returned in the search results.
+* 一个被索引的field是可搜索和可排序的，被索引的field不在搜索结果中体现Indexed fields are not returned in the search results.
+* 被存储的field会在搜索结果中返回
+* 如果一个field既是被索引的又是被存储的，那么这个field就是既是可搜索和可排序的，又会在搜索结果中返回
 
-### Adding Information to the Index
+### 在索引中增加信息
 
-When a new document is added to Solr, indexed and stored fields are processed in a different way. This difference is described in the following:
+当一个新文档被加入Solr时，被索引的和被存储的field的处理方式是不同的，区别如下：
 
 * Indexed fields undergo an analysis phase which typically breaks the text into words and apply different transformations to it. The results of this analysis phase are saved to Solr index.
 * The values of stored fields are saved as is.
 
-### Searching Information from the Index
+### 从索引中搜索信息
 
-The search function can be divided into three steps which are described in the following:
+搜索可以通过下面三个步骤来描述：
 
 * Typically the search query undergo a similar analysis phase than the indexed fields. The goal of this is to ensure that the search query matches with the content of the index.
 * Solr uses its index to perform the search.
 * The matching documents are returned in the requested format. Each document contains the values of its stored fields.
 
-### Creating the Schema
+### 建立Schema
 
-The schema is used to configure the following things:
+schema用于配置下面的内容：
 
 * The fields of a document.
 * How the fields of document are processed when a new document is added to the index.
@@ -311,28 +303,28 @@ When we send a GET request to the url ‘http://localhost:8983/solr/todo/select?
 ```
 {
     "responseHeader": {
-                        "status":0,
-                        "QTime":1,
-                        "params":{
-                                    "wt":"json",
-                                    "q":"*:*"
-                        }
+        "status":0,
+        "QTime":1,
+        "params":{
+            "wt":"json",
+            "q":"*:*"
+        }
     },
     "response":{
-                "numFound":2,
-                "start":0,
-                "docs":[
-                        {
-                            "id":"1",
-                            "title":"Write introduction to Solr",
-                            "_version_":1425949176574771200
-                        },
-                        {
-                            "id":"2",
-                            "title":"Implement example application",
-                            "_version_":1425949176662851584
-                        }
-                ]
+        "numFound":2,
+        "start":0,
+        "docs":[
+            {
+                "id":"1",
+                "title":"Write introduction to Solr",
+                "_version_":1425949176574771200
+            },
+            {
+                "id":"2",
+                "title":"Implement example application",
+                "_version_":1425949176662851584
+            }
+        ]
     }
 }
 ```
@@ -350,23 +342,23 @@ When we send a GET request tot he url ‘http://localhost:8983/solr/todo/select?
 ```
 {
     "responseHeader":{
-                        "status":0,
-                        "QTime":7,
-                        "params":{
-                                    "wt":"json",
-                                    "q":"application"
-                        }
+        "status":0,
+        "QTime":7,
+        "params":{
+            "wt":"json",
+            "q":"application"
+        }
     },
     "response":{
-                "numFound":1,
-                "start":0,
-                "docs":[
-                        {
-                            "id":"2",
-                            "title":"Implement example application",
-                            "_version_":1425949176662851584
-                        }
-                ]
+        "numFound":1,
+        "start":0,
+        "docs":[
+            {
+                "id":"2",
+                "title":"Implement example application",
+                "_version_":1425949176662851584
+            }
+        ]
     }
 }
 ```
