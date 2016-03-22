@@ -213,8 +213,8 @@ public class ITFindBySearchTermTest {
 > When you use the @DatabaseSetup annotation, you have to follow these rules:
 * If all test methods of your test class use the same dataset, you can configure it by annotating your test class with @DatabaseSetup annotation. However, if all test methods of your test class do not use the same dataset, you have to annotate your test methods with the @DatabaseSetup annotation.
 * If the dataset file is in the same package than the integration test class, you can configure it by using the name of the dataset file. On the other hand, if the dataset file is not in same the package than the test class, you have to configure the full path of the dataset file. For example, if your dataset file (todo-entries.xml) is in the package foo.bar, you can configure its full path by using the string: “/foo/bar/todo-entries.xml”.
-Additional Reading:
 
+> Additional Reading:
 * [Writing Tests for Data Access Code](http://www.petrikainulainen.net/writing-tests-for-data-access-code/) is a five-part tutorial that describes how you can write tests for your data access code, and ensure that your tests are clean and easy to maintain.
 * [Spring From the Trenches: Using Null Values in DbUnit Datasets](http://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-using-null-values-in-dbunit-datasets/) describes why you should use null values in your DbUnit datasets and explains how you can use them.
 * [Spring From the Trenches: Resetting Auto Increment Columns Before Each Test Method](http://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-resetting-auto-increment-columns-before-each-test-method/) describes why you should reset the auto increment columns before each test method and explains how you can do it.
