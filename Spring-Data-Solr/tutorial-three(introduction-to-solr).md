@@ -16,7 +16,7 @@ This section describes
 * 新文档加入Solr时发生了什么
 * 在索引上索引执行查询时发生了什么
 
-### The Data Model
+### Solr的Data Model
 
 一个索引An index consists of documents which are essentially a collection of fields. 如果我们拿Solr的data model和关系数据库进行对比的化，会发现如下的相似性：
 
