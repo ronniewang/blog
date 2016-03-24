@@ -1,18 +1,10 @@
-How can we write integration tests for our Spring Data JPA repositories because they are just interfaces?
+Spring Data JPA的repository都是接口，怎么测试呢？
 
-This blog post answers to that question. During this blog post we will write integration tests for a Spring Data JPA repository that manages the information of todo entries (Todo objects). To be more specific, we will write integration tests for the findBySearchTerm() method of TodoRepository interface. That method ignores case and returns todo entries whose title or description contains the given search term.
+这篇文章就回答这个问题，我们测试`TodoRepository`中的`findBySearchTerm()`方法
 
-## Getting the Required Dependencies With Maven
+## 获取maven依赖
 
-We can get the required dependencies with Maven by declaring the following dependencies in our pom.xml file:
-
-* [JUnit](http://junit.org/) (version 4.11).
-* [AssertJ Core](http://joel-costigliola.github.io/assertj/assertj-core.html) (version 3.2.0). We use AssertJ for ensuring that the tested method returns the correct information.
-* [Spring Test](http://docs.spring.io/spring/docs/4.1.x/spring-framework-reference/html/testing.html) (version 4.1.6.RELEASE).
-* [DbUnit](http://dbunit.sourceforge.net/) (version 2.5.1). Remember to exclude the JUnit dependency. We use DbUnit for initializing our database into a known state before each test case is invoked.
-* [Spring Test DbUnit](http://springtestdbunit.github.io/spring-test-dbunit/) (version 1.2.1) integrates DbUnit with the Spring Test framework.
-
-The relevant part of our pom.xml file looks as follows:
+依赖的pom文件如下：
 
 ```xml
 <dependency>
@@ -53,20 +45,20 @@ The relevant part of our pom.xml file looks as follows:
 </dependency>
 ```
 
-After we have configured the required dependencies in our pom.xml file, we can configure our integration tests.
+下面配置集成测试需要的环境
 
-## Configuring Our Integration Tests
+## 配置集成测试
 
-We can configure our integration tests by following these steps:
+步骤如下：
 
-1. Run integration tests by using the SpringJUnit4ClassRunner class. It is a custom JUnit runner that integrates the Spring Test framework with JUnit. We can configure the used JUnit runner by annotating our test class with the @RunWith annotation.
+1. 通过`SpringJUnit4ClassRunner`来运行测试，这是一个Spring Test框架对JUnit进行定制过的运行器，通过`@RunWith`来进行配置
 2. Configure the application context configuration class (or XML configuration file) that configures the application context used by our integration tests. We can configure the used application context configuration class (or XML configuration file) by annotating our test class with the @ContextConfiguration annotation.
 3. Configure the test execution listeners which react to the test execution events that are published by the Spring Test framework. We have to configure the following test execution listeners:
-* The DependencyInjectionTestExecutionListener provides dependency injection for the test object.
-* The TransactionalTestExecutionListener adds transaction support (with default rollback semantics) into our integration tests.
-* The DbUnitTestExecutionListener adds support for the features provided by the Spring Test DbUnit library.
+* `DependencyInjectionTestExecutionListener`为测试对象提供依赖注入
+* `TransactionalTestExecutionListener`提供事务的支持
+* `DbUnitTestExecutionListener`提供了Spring Test DbUnit中包含的特性
 
-After we have added this configuration into our integration test class, its source code looks as follows:
+配置后的配置类如下：
 
 ```java
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
@@ -86,24 +78,15 @@ public class ITFindBySearchTermTest {
 }
 ```
 
-Additional Reading:
-Spring Framework Reference Documentation: 11.3 Integration Testing
-Spring Framework Reference Documentation: 14.5.2 TestExecutionListener configuration
-The Javadoc of the @RunWith annotation
-The Javadoc of the SpringJUnit4ClassRunner class
-The Javadoc of the @ContextConfiguration annotation
-The Javadoc of the @TestExecutionListeners annotation
-The Javadoc of the TestExecutionListener interface
-The Javadoc of the DependencyInjectionTestExecutionListener class
-The Javadoc of the TransactionalTestExecutionListener class
+详情可了解各个类的JavaDoc
 
-After we have configured our integration test class, we can start writing integration tests for our Spring Data JPA repository.
+下面可以为Spring Data JPA的repository写测试了
 
-## Writing Integration Tests for Our Repository
+## 为Spring Data JPA的repository写测试
 
-We can write integration tests for our repository by following these steps:
+步骤如下：
 
-First, we have to inject the tested repository into our test class. Because we are writing integration tests for the TodoRepository interface, we have to inject it into our test class. The source code of our test class looks as follows:
+首先，注入要测试的repository，代码如下：
 
 ```java
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
@@ -127,15 +110,13 @@ public class ITFindBySearchTermTest {
 }
 ```
 
-Second, we have to create the DbUnit dataset that initializes our database into a known state before our test cases are invoked. We will use the flat XML dataset format because it is less verbose than the original DbUnit dataset format. This means that we can create our dataset by following these rules:
+然后，创建DbUnit的dataset来初始化测试数据，我们使用XML格式的dataset文件，文件具有如下特点：
 
-* Each XML element contains the information of a single table row.
-* The name of the XML element identifies the name of the database table in which its information is inserted.
-* The attributes of the XML element specify the values that are inserted into the columns of the database table.
+* 每个XML元素代表一个table的一行
+* 每个XML元素的标签名表示表的名称
+* 每个XML元素的属性表示一个字段
 
-The tested repository (TodoRepository) queries information from the todos table that has the following columns: id, created_by_user, creation_time, description, modified_by_user, modification_time, title, and version.
-
-Because we are writing integration tests for a method that returns a list of Todo objects, we want to insert two rows to the todos table. We can do this by creating a DbUnit dataset file (todo-entries.xml) that looks as follows:
+我们的dataset文件如下：
 
 ```xml
 <dataset>
@@ -158,8 +139,7 @@ Because we are writing integration tests for a method that returns a list of Tod
 </dataset>
 ```
 
-> Additional reading:
-DbUnit documentation provides more information about the different [DbUnit dataset formats](http://dbunit.sourceforge.net/components.html#dataset).
+> DbUnit的dataset的更多格式请看[DbUnit dataset formats](http://dbunit.sourceforge.net/components.html#dataset).
 
 Third, we can write integration tests for the findBySearchTerm() method of the TodoRepository interface. Let’s write integration tests which ensure that the findBySearchTerm() method is working correctly when the title of one todo entry contains the given search term. We can write these integration tests by following these steps:
 
@@ -167,7 +147,7 @@ Third, we can write integration tests for the findBySearchTerm() method of the T
 2. Write an integration test which ensures that the findBySearchTerm() method returns one todo entry when the search term “iTl” is passed as a method parameter.
 3. Write an integration test which ensures that the findBySearchTerm() method returns the “first” todo entry when the search term “iTl” is passed as a method parameter.
 
-The source code of the ITFindBySearchTerm class looks as follows:
+`ITFindBySearchTerm`代码如下：
 
 ```java
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
@@ -219,17 +199,15 @@ public class ITFindBySearchTermTest {
 * [Spring From the Trenches: Using Null Values in DbUnit Datasets](http://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-using-null-values-in-dbunit-datasets/) describes why you should use null values in your DbUnit datasets and explains how you can use them.
 * [Spring From the Trenches: Resetting Auto Increment Columns Before Each Test Method](http://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-resetting-auto-increment-columns-before-each-test-method/) describes why you should reset the auto increment columns before each test method and explains how you can do it.
 
-Let’s move on and summarize what we learned from this blog post.
+## 总结
 
-## Summary
+总结一下：
 
-This blog post has taught us four things:
+* 通过Spring Test DbUnit将DbUnit与Spring Test framework进行了
+* 通过DbUnitTestExecutionListener将Spring Test DbUnit和Spring Test framework进行了集成
+* 学会了使用XML编写DbUnit的dataset文件
+* 学会了使用@DatabaseSetup注解
 
-* We can integrate DbUnit with the Spring Test framework by using Spring Test DbUnit.
-* We can integrate Spring Test DbUnit with the Spring Test framework by using the DbUnitTestExecutionListener class.
-* We should use the flat XML databaset format because it is less verbose than the original DbUnit dataset format.
-* We can use the @DatabaseSetup annotation on the class level or on the method level.
+P.S. 项目代码可在Github ([query methods](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/query-methods), [JPA Criteria API](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/criteria-api), [Querydsl](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/querydsl))获取
 
-P.S. You can get the example applications of this blog post from Github ([query methods](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/query-methods), [JPA Criteria API](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/criteria-api), [Querydsl](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/querydsl)).
-
-> If you want to learn how to use Spring Data JPA, you should read my [Spring Data JPA tutorial](http://www.petrikainulainen.net/spring-data-jpa-tutorial/).
+> 更多[Spring Data JPA tutorial](http://www.petrikainulainen.net/spring-data-jpa-tutorial/)教程
