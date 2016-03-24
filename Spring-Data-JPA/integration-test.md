@@ -143,7 +143,7 @@ public class ITFindBySearchTermTest {
 
 > DbUnit的dataset的更多格式请看[DbUnit dataset formats](http://dbunit.sourceforge.net/components.html#dataset).
 
-Third, we can write integration tests for the findBySearchTerm() method of the TodoRepository interface. Let’s write integration tests which ensure that the findBySearchTerm() method is working correctly when the title of one todo entry contains the given search term. We can write these integration tests by following these steps:
+然后，写测试，步骤如下：
 
 1. 通过`@DatabaseSetup`注解来配置dataset
 2. 写一个测试来确认`findBySearchTerm()`方法在使用“iTl”作为参数进行查询时返回一个对象
