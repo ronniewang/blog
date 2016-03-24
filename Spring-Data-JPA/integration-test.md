@@ -1,6 +1,6 @@
 Spring Data JPA的repository都是接口，怎么测试呢？
 
-这篇文章就回答这个问题，我们测试`TodoRepository`中的`findBySearchTerm()`方法
+这篇文章就回答这个问题，我们测试选择`TodoRepository`中的`findBySearchTerm()`方法作为例子
 
 ## 获取maven依赖
 
@@ -52,8 +52,8 @@ Spring Data JPA的repository都是接口，怎么测试呢？
 步骤如下：
 
 1. 通过`SpringJUnit4ClassRunner`来运行测试，这是一个Spring Test框架对JUnit进行定制过的运行器，通过`@RunWith`来进行配置
-2. Configure the application context configuration class (or XML configuration file) that configures the application context used by our integration tests. We can configure the used application context configuration class (or XML configuration file) by annotating our test class with the @ContextConfiguration annotation.
-3. Configure the test execution listeners which react to the test execution events that are published by the Spring Test framework. We have to configure the following test execution listeners:
+2. 配置application context，通过`@ContextConfiguration`注解来实现
+3. 配置test execution listeners，通过他们来相应Spring Test framework在测试执行中发布的事件，需要配置如下几个listener：
 * `DependencyInjectionTestExecutionListener`为测试对象提供依赖注入
 * `TransactionalTestExecutionListener`提供事务的支持
 * `DbUnitTestExecutionListener`提供了Spring Test DbUnit中包含的特性
@@ -143,9 +143,9 @@ public class ITFindBySearchTermTest {
 
 Third, we can write integration tests for the findBySearchTerm() method of the TodoRepository interface. Let’s write integration tests which ensure that the findBySearchTerm() method is working correctly when the title of one todo entry contains the given search term. We can write these integration tests by following these steps:
 
-1. Configure the used dataset file by annotating the integration test class with the @DatabaseSetup annotation.
-2. Write an integration test which ensures that the findBySearchTerm() method returns one todo entry when the search term “iTl” is passed as a method parameter.
-3. Write an integration test which ensures that the findBySearchTerm() method returns the “first” todo entry when the search term “iTl” is passed as a method parameter.
+1. 通过`@DatabaseSetup`注解来配置dataset
+2. 写一个测试来确认`findBySearchTerm()`方法在使用“iTl”作为参数进行查询时返回一个对象
+3. 写一个测试来确认`findBySearchTerm()`方法在使用“iTl”作为参数进行查询时返回一个id为1的对象
 
 `ITFindBySearchTerm`代码如下：
 
@@ -190,24 +190,24 @@ public class ITFindBySearchTermTest {
 }
 ```
 
-> When you use the @DatabaseSetup annotation, you have to follow these rules:
-* If all test methods of your test class use the same dataset, you can configure it by annotating your test class with @DatabaseSetup annotation. However, if all test methods of your test class do not use the same dataset, you have to annotate your test methods with the @DatabaseSetup annotation.
-* If the dataset file is in the same package than the integration test class, you can configure it by using the name of the dataset file. On the other hand, if the dataset file is not in same the package than the test class, you have to configure the full path of the dataset file. For example, if your dataset file (todo-entries.xml) is in the package foo.bar, you can configure its full path by using the string: “/foo/bar/todo-entries.xml”.
+> `@DatabaseSetup`有一下两点需要注意：
+* 如果测试类的所有测试用例使用一个dataset，就可以将`@DatabaseSetup`注解表在类上，否则，需要表在方法上
+* 如果dataset文件和测试类在同一个包下，可以直接写文件的名字，如果不在一个包下，需要些全路径，例如todo-entries.xml文件在foo.bar包下，就得写“/foo/bar/todo-entries.xml”
 
-> Additional Reading:
-* [Writing Tests for Data Access Code](http://www.petrikainulainen.net/writing-tests-for-data-access-code/) is a five-part tutorial that describes how you can write tests for your data access code, and ensure that your tests are clean and easy to maintain.
-* [Spring From the Trenches: Using Null Values in DbUnit Datasets](http://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-using-null-values-in-dbunit-datasets/) describes why you should use null values in your DbUnit datasets and explains how you can use them.
-* [Spring From the Trenches: Resetting Auto Increment Columns Before Each Test Method](http://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-resetting-auto-increment-columns-before-each-test-method/) describes why you should reset the auto increment columns before each test method and explains how you can do it.
+> 扩展阅读
+* [Writing Tests for Data Access Code](http://www.petrikainulainen.net/writing-tests-for-data-access-code/)讲了怎样写干净的和可维护的数据库测试代码
+* [Spring From the Trenches: Using Null Values in DbUnit Datasets](http://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-using-null-values-in-dbunit-datasets/)讲了在DbUnit的dataset中怎样使用null值以及为什么要使用它们
+* [Spring From the Trenches: Resetting Auto Increment Columns Before Each Test Method](http://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-resetting-auto-increment-columns-before-each-test-method/)讲了怎样在测试方法运行前重置自动增长的列
 
 ## 总结
 
 总结一下：
 
 * 通过Spring Test DbUnit将DbUnit与Spring Test framework进行了
-* 通过DbUnitTestExecutionListener将Spring Test DbUnit和Spring Test framework进行了集成
+* 通过`DbUnitTestExecutionListener`将Spring Test DbUnit和Spring Test framework进行了集成
 * 学会了使用XML编写DbUnit的dataset文件
-* 学会了使用@DatabaseSetup注解
+* 学会了使用`@DatabaseSetup`注解
 
 P.S. 项目代码可在Github ([query methods](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/query-methods), [JPA Criteria API](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/criteria-api), [Querydsl](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master/querydsl))获取
 
-> 更多[Spring Data JPA tutorial](http://www.petrikainulainen.net/spring-data-jpa-tutorial/)教程
+> 还可访问更多[Spring Data JPA tutorial](http://www.petrikainulainen.net/spring-data-jpa-tutorial/)教程
