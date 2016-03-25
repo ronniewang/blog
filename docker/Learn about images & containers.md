@@ -1,4 +1,5 @@
-Learn about images & containers
+# 了解容器和镜像
+
 Docker Engine provides the core Docker technology that enables images and containers. As the last step in your installation, you ran the Engine docker run hello-world command. With this one command, you completed the core tasks to using Engine. The command you ran had three parts.
 
 
