@@ -1,4 +1,6 @@
-# 了解容器和镜像
+# 关于并发的一切
+
+## 为什么要并发
 
 A thread state. A thread can be in one of the following states:
 NEW
@@ -15,7 +17,9 @@ TERMINATED
 A thread that has exited is in this state.
 A thread can be in only one state at a given point in time. These states are virtual machine states which do not reflect any operating system thread states.
 
-## 线程引入的开销
+## 并发带来的问题
+
+### 线程引入的开销
 
 与单线程相比
 
