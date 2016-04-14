@@ -45,12 +45,12 @@ BEGIN
 			LEAVE loop1;
 		END IF;
 
-		set number = number + 1;
+		SET number = number + 1;
 	END LOOP;
 
 	CLOSE cur;
 
-	set done = FALSE;//两个游标的情况下，注意在遍历第二个游标之前将done标志设为FALSE
+	SET done = FALSE;//两个游标的情况下，注意在遍历第二个游标之前将done标志设为FALSE
 
 	OPEN cur2;
 	loop2: LOOP
@@ -60,7 +60,7 @@ BEGIN
 			LEAVE loop2;
 		END IF;
 
-		set number = number + 1;
+		SET number = number + 1;
 	END LOOP;
 
 	CLOSE cur2;
