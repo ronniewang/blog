@@ -15,18 +15,15 @@ SMTP默认端口是25
 ## POP3
 
 POP3全称Post Office Protocol，POP3可以允许客户端从服务器下载邮件，POP3很简单，除了下载之外不提供其他功能
+
 原POP3协议，在客户端下载所有邮件后，邮件会从服务器端删除
+
 改进的POP3协议，也可实现不删除
+
 POP3默认端口为110
 
 ## IMAP
 
-IMAP stands for Internet Message Access Protocol. IMAP shares many similar features with POP3. It, too, is a protocol that an email client can use to download email from an email server. However, IMAP includes many more features than POP3. The IMAP protocol is designed to let users keep their email on the server. IMAP requires more disk space on the server and more CPU resources than POP3, as all emails are stored on the server. IMAP normally uses port 143. Here is more information about IMAP.
+IMAP全称Internet Message Access Protocol，IMAP与POP3有很多相似的特性，也可以从服务器上下载邮件到客户端，但IMAP还有更多的额外功能，IMAP是服务端不删除邮件的，所以比POP3需要更多的磁盘和cpu资源
 
-## Examples
-
-Suppose you use hMailServer as your email server to send an email to bill@microsoft.com.
-You click Send in your email client, say, Outlook Express.
-Outlook Express delivers the email to hMailServer using the SMTP protocol.
-hMailServer delivers the email to Microsoft's mail server, mail.microsoft.com, using SMTP.
-Bill's Mozilla Mail client downloads the email from mail.microsoft.com to his laptop using the POP3 protocol (or IMAP).
+IMAP的more端口是143
