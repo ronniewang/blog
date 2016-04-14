@@ -50,7 +50,7 @@ BEGIN
 
 	CLOSE cur;
 
-	SET done = FALSE;//两个游标的情况下，注意在遍历第二个游标之前将done标志设为FALSE
+	SET done = FALSE; -- 两个游标的情况下，注意在遍历第二个游标之前将done标志设为FALSE
 
 	OPEN cur2;
 	loop2: LOOP
