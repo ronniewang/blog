@@ -1,7 +1,9 @@
-We would like to introduce Gradle to you, a build system that we think is a quantum leap for build technology in the Java (JVM) world. Gradle provides:
+# 简单介绍
 
-A very flexible general purpose build tool like Ant.
-Switchable, build-by-convention frameworks a la Maven. But we never lock you in!
+Gradle的出现可以说是JVM世界在构建领域的一个里程碑式的飞跃，Gradle有如下优点：
+
+* 像Ant一样通用灵活
+* 像Maven一样Switchable, build-by-convention frameworks a la Maven. But we never lock you in!
 Very powerful support for multi-project builds.
 Very powerful dependency management (based on Apache Ivy).
 Full support for your existing Maven or Ivy repository infrastructure.
