@@ -136,7 +136,7 @@ BooleanExpression customerHasBirthday = customer.birthday.eq(today);
 BooleanExpression isLongTermCustomer = customer.createdAt.lt(today.minusYears(2));
 ```
 
-This is not only almost fluent English out of the box, the BooleanExpressions are even reusable without further wrapping which lets us get rid off the additional (and a bit ugly to implement) Specification wrapper. 更酷的是还可以得到IDE代码自动完成的支持，要执行查询，跟Specification类似，让repository继承QueryDslPredicateExecutor接口即可：
+上面的写法不仅读来很顺畅，BooleanExpressions还可以直接重用，免去使用更多包装方法的写法，更酷的是还可以得到IDE代码自动完成的支持，要执行查询，跟Specification类似，让repository继承QueryDslPredicateExecutor接口即可：
 
 ```java
 public interface CustomerRepository extends JpaRepository<Customer>, QueryDslPredicateExecutor {
@@ -155,3 +155,5 @@ customerRepository.findAll(customerHasBirthday.and(isLongTermCustomer));
 ## 总结
 
 Spring Data JPA repository抽象允许通过把JPA Criteria API包装到Specification中来简化开发，还可以使用Querydsl，实现方法也很简单，分别集成JpaSpecificationExecutor或者QueryDslPredicateExecutor即可，当然，如果需要的话，一起使用也没问题
+
+原文<https://spring.io/blog/2011/04/26/advanced-spring-data-jpa-specifications-and-querydsl/>
