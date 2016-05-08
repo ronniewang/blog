@@ -47,7 +47,7 @@ em.createQuery(query.select(root)).getResultList();
 
 ## 使用Specifications
 
-为了重用查询条件，我们引入了Specification接口，这是从Eric Evans’ Domain Driven Design 一书中的概念衍生出来的，它定义了作为判定条件的规格It defines a specification as a predicate over an entity which is exactly what our Specification interface represents. 这个接口只包含下面一个方法：
+为了重用查询条件，我们引入了Specification接口，这是从Eric Evans’ Domain Driven Design 一书中的概念衍生出来的，它为对一个实体查询的谓词定义了一个规范，实体类型由Specification接口的泛型参数来决定，这个接口只包含下面一个方法：
 
 ```java
 public interface Specification<T> {
