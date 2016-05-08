@@ -1,6 +1,6 @@
 # Spring Data JPA进阶——Specifications和Querydsl
 
-本篇介绍一下Spring Data JPA中能为数据访问程序的开发带来更多便利的特性，Spring Data repository的配置很简单，一个典型的repository像下面这样：
+本篇介绍一下Spring Data JPA中能为数据访问程序的开发带来更多便利的特性，我们知道，Spring Data repository的配置很简单，一个典型的repository像下面这样：
 
 ```java
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
@@ -93,18 +93,21 @@ customerRepository.findAll(hasBirthday());
 customerRepository.findAll(isLongTermCustomer());
 ```
 
-The basic repository implementation will prepare the CriteriaQuery, Root and CriteriaBuilder for you, apply the Predicate created by the given Specification and execute the query. But couldn’t we just have created simple query methods to achieve that? Correct, but remember our second initial requirement. We wanted to be able to freely combine atomic Specifications to create new ones one the fly. To do so we have a helper class Specifications that provides and(…) and or(…) methods to concatenate atomic Specifications. There’s also a where(…) that provides some syntactic sugar to make the expression more readable. The use case sample I came up with in the beginning looks like this:
+默认实现会为你提供CriteriaQuery，Root，CriteriaBuilder等对象，通过给定的Specification应用判定条件，然后执行查询，这样的好处就是我们可以随意组合查询条件，而不用写很多个方法，Specifications工具类提供了一写遍历方法来组合条件，例如and(…)、or(…)等连接方法，还有where(…)提供了更易读的表达形式，下面我们看一下效果：
 
+```java
 customerRepository.findAll(where(customerHasBirthday()).and(isLongTermCustomer()));
+```
 
-This reads fluently, improving readability as well as providing additional flexibility as compared to the use of the JPA Criteria API alone. The only caveat here is that coming up with the Specification implementation requires quite some coding effort.
+相比JPA Criteria API的原生接口，我们的实现更加具有扩展性和可读性，当时实现Specification的时候需要一点小波折，但这是值得的
 
-Querydsl
+## 使用Querydsl
 
-To cure that pain an open-source project called Querydsl has come up with a quite similar but also different approach. Just like the JPA Criteria API it uses a Java 6 annotation processor to generate meta-model objects but produces a much more approachable API. Another cool thing about the project is that it has not only has support for JPA but also allows querying Hibernate, JDO, Lucene, JDBC and even plain collections.
+为了解决上述的痛苦，一个叫Querydsl的开源项目也提供了类似的解决方案，但是实现有所不同，提供了更有好的API，而且不仅支持JPA，还支持Hibernate，JDO，Lucene，JDBC甚至是原始集合的查询
 
-So to get that up and running you add Querydsl to your pom.xml and configure the APT plugin accordingly.
+为了使用Querydsl，需要在pom.xml中引入依赖并且配置一个额外的APT插件
 
+```xml
 <plugin>
   <groupId>com.mysema.maven</groupId>
   <artifactId>maven-apt-plugin</artifactId>
@@ -122,30 +125,33 @@ So to get that up and running you add Querydsl to your pom.xml and configure the
     </execution>
   </executions>
 </plugin>
+```
 
-This will cause your build to create special query classes - QCustomer inside the very same package in our case.
+下面就可以通过QCustomer来实现我们上述的功能了
 
+```java
 QCustomer customer = QCustomer.customer;
 LocalDate today = new LocalDate();
 BooleanExpression customerHasBirthday = customer.birthday.eq(today);
 BooleanExpression isLongTermCustomer = customer.createdAt.lt(today.minusYears(2));
+```
 
-This is not only almost fluent English out of the box, the BooleanExpressions are even reusable without further wrapping which lets us get rid off the additional (and a bit ugly to implement) Specification wrapper. A further plus is that you get IDE code completion at every dot on the right hand side of the assignments, so customer. + CTRL + SPACE would list all properties. customer.birthday. + CTRL + SPACE would list all available keywords and so on. To execute Querydsl predicates you simply let your repository extend QueryDslPredicateExecutor:
+This is not only almost fluent English out of the box, the BooleanExpressions are even reusable without further wrapping which lets us get rid off the additional (and a bit ugly to implement) Specification wrapper. 更酷的是还可以得到IDE代码自动完成的支持，要执行查询，跟Specification类似，让repository继承QueryDslPredicateExecutor接口即可：
 
+```java
 public interface CustomerRepository extends JpaRepository<Customer>, QueryDslPredicateExecutor {
   // Your query methods here
 }
+```
 
-Clients can then simply do:
+可以通过下面的方式调用
 
+```java
 BooleanExpression customerHasBirthday = customer.birthday.eq(today);
 BooleanExpression isLongTermCustomer = customer.createdAt.lt(today.minusYears(2));
 customerRepository.findAll(customerHasBirthday.and(isLongTermCustomer));
+```
 
-Summary
+## 总结
 
-Spring Data JPA repository abstraction allows executing predicates either via JPA Criteria API predicates wrapped into a Specification object or via Querydsl predicates. To enable this functionality you simply let your repository extend JpaSpecificationExecutor or QueryDslPredicateExecutor (you could even use both side by side if you liked). Note that you need the Querydsl JARs in the class in case you decide for the Querydsl approach.
-
-One more thing
-
-One more cool thing about the Querydsl approach is that it is not only available for our JPA repositories but for our MongoDB support as well. The functionality is included in the just released M2 release of Spring Data MongoDB already. Beyond that both the Mongo and JPA module of Spring Data are supported on the CloudFoundry platform. See the cloudfoundry-samples wiki for getting started with Spring Data and CloudFoundry.
+Spring Data JPA repository抽象允许通过把JPA Criteria API包装到Specification中来简化开发，还可以使用Querydsl，实现方法也很简单，分别集成JpaSpecificationExecutor或者QueryDslPredicateExecutor即可，当然，如果需要的话，一起使用也没问题
