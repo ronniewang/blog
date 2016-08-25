@@ -18,7 +18,7 @@ split --bytes 500M --numeric-suffixes --suffix-length=2 passport.log passport.
 
 假如passport.log有1.8G
 拆分之后就会有
-passport.01
-passport.02
-passport.03
-passport.04
+* passport.01
+* passport.02
+* passport.03
+* passport.04
