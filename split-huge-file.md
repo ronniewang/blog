@@ -13,6 +13,7 @@ split --bytes 500M --numeric-suffixes --suffix-length=2 passport.log passport.
 `--suffix-length=2`表示后缀长度为2，不够的会补前缀0
 
 `passport.log`是要拆分的文件
+
 `passport.`是拆分文件的前缀
 
 假如passport.log有1.8G
